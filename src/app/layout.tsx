@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Financial Planner",
   description: "A comprehensive financial planning and budgeting application",
+  other: {
+    "google-site-verification": "iJ5IchthSOP80pdR4bTs9X6gDj7KLNiuYj1qM3lvOEc",
+  },
 };
 
 export default function RootLayout({
