@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Financial Planner
+
+A comprehensive financial planning and budgeting application built with Next.js, TypeScript, and Tailwind CSS.
+
+## Features
+
+- **Budget Overview**: Track monthly income, expenses, and net income
+- **Savings Goals**: Set and monitor your savings objectives
+- **Transaction Management**: Record and categorize your transactions
+- **Financial Dashboard**: Get a quick overview of your financial health
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
 
 ## Getting Started
 
@@ -16,18 +26,44 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start customizing the application by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/
+    layout.tsx          # Root layout component
+    page.tsx            # Main dashboard page
+    globals.css         # Global styles
+  components/           # Reusable React components (to be added)
+  lib/                  # Utility functions (to be added)
+  types/                # TypeScript type definitions (to be added)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js 16**: React framework for production
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS 4**: Utility-first CSS framework
+- **React 19**: Latest React features
+
+## Development
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Future Enhancements
+
+- Add database integration for persistent data
+- Implement user authentication
+- Create detailed financial reports and charts
+- Add investment tracking features
+- Mobile app development
 
 ## Deploy on Vercel
 
