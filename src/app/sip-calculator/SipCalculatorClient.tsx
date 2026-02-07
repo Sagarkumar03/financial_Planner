@@ -16,7 +16,7 @@ const formatNumber = (value: string) => {
   return num.toString().replace(/(\d)(?=(\d{2})+\d(?!\d))/g, '$1,');
 };
 
-// Helper to format currency amounts consistently
+// Helper to format currency amounts consistently.
 const formatCurrency = (amount: number) => {
   return amount.toString().replace(/(\d)(?=(\d{2})+\d(?!\d))/g, '$1,');
 };
