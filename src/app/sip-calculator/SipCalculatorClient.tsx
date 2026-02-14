@@ -3,70 +3,27 @@
 import { useState, useEffect } from "react";
 import { SipCalculator } from "@/calculators/sip/sipCalculator";
 import { IndiaSipAssumptions } from "@/calculators/sip/assumptions";
-
-const formatNumber = (value: string) => {
-  const clean = value.replace(/,/g, "");
-  if (clean === "") return "";
-  
-  // Consistent formatting that works the same on server and client
-  const num = Number(clean);
-  if (isNaN(num)) return clean;
-  
-  // Manual Indian number formatting to avoid locale inconsistencies
-  return num.toString().replace(/(\d)(?=(\d{2})+\d(?!\d))/g, '$1,');
-};
-
-// Helper to format currency amounts consistently.
-const formatCurrency = (amount: number) => {
-  return amount.toString().replace(/(\d)(?=(\d{2})+\d(?!\d))/g, '$1,');
-};
-
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
-
-// Helper functions for input validation
-const isValidInteger = (value: string) => {
-  return /^\d*$/.test(value);
-};
-
-const isValidDecimal = (value: string) => {
-  return /^\d*\.?\d*$/.test(value);
-};
-
-const handleIntegerInput = (value: string) => {
-  // Remove commas first, then validate
-  const cleanValue = value.replace(/,/g, "");
-  return isValidInteger(cleanValue) ? cleanValue : null;
-};
-
-const handleDecimalInput = (value: string) => {
-  return isValidDecimal(value) ? value : null;
-};
-
-// Input validation limits
-const INPUT_LIMITS = {
-  monthlyInvestment: {
-    min: 0,
-    max: 1_00_00_000, // 1 crore
-    default: "10000"
-  },
-  annualReturnRate: {
-    min: 0,
-    max: 30, // 30%
-    default: "12"
-  },
-  investmentYears: {
-    min: 1,
-    max: 50, // 50 years
-    default: "20"
-  },
-  inflationRate: {
-    min: 0,
-    max: 15, // 15%
-    default: "6"
-  }
-};
-
+import { formatNumber } from "@/lib/mathUtils";
+import { 
+  INPUT_LIMITS,
+  handleIntegerInput,
+  handleDecimalInput,
+  parseAndClampInteger,
+  parseAndClampDecimal
+} from "@/lib/inputValidation";
+import { 
+  FinancialResultsCard, 
+  FinancialMetric, 
+  FinancialDivider,
+  HighlightedMetric
+} from "@/components/ui/FinancialDisplay";
+import {
+  MainContainer,
+  PageHeading,
+  Description,
+  DisclaimerSection,
+  FAQSection
+} from "@/components/ui/CommonUI";
 
 const calculator = new SipCalculator();
 
@@ -83,29 +40,10 @@ export default function SipCalculatorClient() {
     setIsHydrated(true);
   }, []);
 
-  const parsedMonthlyInvestment = clamp(
-  parseInt(monthlyInvestment.replace(/,/g, "")) || 0,
-  INPUT_LIMITS.monthlyInvestment.min, 
-  INPUT_LIMITS.monthlyInvestment.max
-);
-
-const parsedAnnualReturnRate = clamp(
-  parseFloat(annualReturnRate) || 0,
-  INPUT_LIMITS.annualReturnRate.min,
-  INPUT_LIMITS.annualReturnRate.max
-);
-
-const parsedInvestmentYears = clamp(
-  parseFloat(investmentYears) || 0,
-  INPUT_LIMITS.investmentYears.min,
-  INPUT_LIMITS.investmentYears.max
-);
-
-const parsedInflationRate = clamp(
-  parseFloat(inflationRate) || 0,
-  INPUT_LIMITS.inflationRate.min,
-  INPUT_LIMITS.inflationRate.max
-);
+  const parsedMonthlyInvestment = parseAndClampInteger(monthlyInvestment, INPUT_LIMITS.monthlyInvestment);
+  const parsedAnnualReturnRate = parseAndClampDecimal(annualReturnRate, INPUT_LIMITS.annualReturnRate);
+  const parsedInvestmentYears = parseAndClampDecimal(investmentYears, INPUT_LIMITS.investmentYears);
+  const parsedInflationRate = parseAndClampDecimal(inflationRate, INPUT_LIMITS.inflationRate);
 
   const assumptions = {
     ...IndiaSipAssumptions,
@@ -123,20 +61,18 @@ const parsedInflationRate = clamp(
   );
 
   return (
-    <main className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-semibold mb-3">
-        SIP Calculator – Estimate Your Mutual Fund Returns
-      </h1>
+    <MainContainer>
+      <PageHeading title="SIP Calculator – Estimate Your Mutual Fund Returns" />
 
-      <p className="text-sm text-gray-700 mb-6">
+      <Description>
         Use this free SIP calculator to estimate the future value of your monthly
         mutual fund investments in India. Adjust returns for inflation to understand
         the real purchasing power of your money.
-      </p>
+      </Description>
 
       {/* Monthly Investment */}
       <div className="mb-4">
-        <label className="block text-sm mb-1">
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
           Monthly Investment (₹)
         </label>
         <input
@@ -167,8 +103,8 @@ const parsedInflationRate = clamp(
 
       {/* Annual Return */}
       <div className="mb-4">
-        <label className="block text-sm mb-1">
-            Expected Annual Return <span className="text-xs text-gray-500">(%)</span>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+            Expected Annual Return <span className="text-xs text-gray-600 dark:text-gray-400">(%)</span>
         </label>
 
         <input
@@ -209,7 +145,7 @@ const parsedInflationRate = clamp(
 
       {/* Duration */}
       <div className="mb-4">
-        <label className="block text-sm mb-1">
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
           Investment Duration (Years)
         </label>
         <input
@@ -249,23 +185,39 @@ const parsedInflationRate = clamp(
       </div>
 
       {/* Inflation Toggle */}
-      <div className="mb-4 flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={adjustForInflation}
-          onChange={(e) => setAdjustForInflation(e.target.checked)}
-          suppressHydrationWarning={true}
-        />
-        <span className="text-sm">
-          Adjust for inflation
-        </span>
-      </div>
+      <div 
+        className="mb-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 -m-2"
+        onClick={() => setAdjustForInflation(!adjustForInflation)}
+      >
+  <span
+    className="text-sm font-medium text-gray-900 dark:text-gray-100 underline cursor-pointer"
+  >
+    Adjust for Inflation
+  </span>
+  <button
+    id="inflationToggle"
+    role="switch"
+    aria-checked={adjustForInflation}
+    onClick={(e) => {
+      e.stopPropagation();
+      setAdjustForInflation(!adjustForInflation);
+    }}
+    className={`relative inline-flex h-6 w-11 items-center rounded-full transition
+      ${adjustForInflation ? "bg-emerald-500" : "bg-gray-400"}`}
+  >
+    <span
+      className={`inline-block h-5 w-5 transform rounded-full bg-white transition
+        ${adjustForInflation ? "translate-x-5" : "translate-x-1"}`}
+    />
+  </button>
+</div>
+
 
       {/* Inflation Rate */}
       {adjustForInflation && (
         <div className="mb-6">
-          <label className="block text-sm mb-1">
-            Inflation Rate <span className="text-xs text-gray-500">(% per year)</span>
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2">
+            Inflation Rate <span className="text-xs text-gray-600 dark:text-gray-400">(% per year)</span>
           </label>
 
           <input
@@ -306,162 +258,84 @@ const parsedInflationRate = clamp(
       )}
 
       {/* Results */}
-      {/* Results */}
       {isHydrated && (
-<section
-  // CHANGED: border made subtler, card slightly softer
-  className="mt-6 bg-gray-800 rounded-xl p-4 ring-1 ring-gray-800/50"
->
-  <h2
-    // CHANGED: softer heading color
-    className="text-sm font-medium text-gray-400 mb-3"
-  >
-    Investment Summary
-  </h2>
-
-  {/* Maturity Value */}
-  <div className="mb-4">
-    <div className="text-xs text-gray-400">
-      Estimated Maturity Value
-    </div>
-
-    <div
-      // CHANGED: white → gray-100 (less glare, still primary)
-      className="text-2xl font-semibold text-gray-300"
-    >
-      ₹ {formatCurrency(result.maturityValue)}
-    </div>
-
-    <div className="text-xs text-gray-400">
-      After {investmentYears} years
-    </div>
-  </div>
-
-  {/* Subtle divider */}
-  <div
-    // CHANGED: subtle divider using opacity instead of hard border
-    className="h-px bg-gray-800/50 my-3"
-  />
-
-  {/* Returns */}
-  <div className="mb-3">
-    <div className="text-xs text-gray-400">
-      Estimated Returns
-    </div>
-
-    <div
-      // unchanged: emerald is already soft and readable
-      className="text-lg font-medium text-emerald-400"
-    >
-      ₹{" "}
-      {formatCurrency(result.maturityValue - result.totalInvested)}
-    </div>
-  </div>
-
-  {/* Total Invested */}
-  <div className="mb-3">
-    <div className="text-xs text-gray-400">
-      Total Amount Invested
-    </div>
-
-    <div className="text-base font-medium text-gray-200">
-      ₹ {formatCurrency(result.totalInvested)}
-    </div>
-  </div>
-
-  {/* Inflation Adjusted */}
-  {result.inflationAdjustedValue !== undefined && (
-    <>
-      {/* Subtle divider */}
-      <div className="h-px bg-gray-800/50 my-3" />
-
-      <div>
-        <div className="text-xs text-gray-400">
-          Value in today’s money
-        </div>
-
-        <div className="text-base font-medium text-gray-200">
-          ₹{" "}
-          {formatCurrency(result.inflationAdjustedValue)}
-        </div>
-      </div>
-    </>
-  )}
-</section>
-)}
+        <FinancialResultsCard title="Investment Summary">
+          <FinancialMetric
+            label="Final Value (Maturity Amount)"
+            amount={result.maturityValue}
+            description={`After ${investmentYears} years`}
+            color="primary"
+            weight="bold"
+          />
+          
+          <FinancialDivider />
+          
+          <FinancialMetric
+            label="Estimated Gain"
+            amount={result.maturityValue - result.totalInvested}
+            color="success"
+            weight="semibold"
+          />
+          
+          <FinancialDivider />
+          
+          <FinancialMetric
+            label="Total Amount Invested"
+            amount={result.totalInvested}
+            color="neutral"
+            weight="medium"
+          />
+          
+          {/* Inflation Adjusted */}
+          {result.inflationAdjustedValue !== undefined && (
+            <>
+              <FinancialDivider />
+              <HighlightedMetric
+                label="Value in today's money"
+                amount={result.inflationAdjustedValue}
+                description={`Adjusted for ${inflationRate}% inflation`}
+                icon="💰"
+              />
+            </>
+          )}
+        </FinancialResultsCard>
+      )}
 
 
 
 
-      {/* Assumptions & Disclaimer */}
-      <section className="text-xs text-gray-600 mt-6">
-        <h2 className="font-medium mb-1">
-          Assumptions & Disclaimer
-        </h2>
-
-        <p className="mb-1">
+      <DisclaimerSection title="Assumptions & Disclaimer">
+        <p className="mb-3">
           Returns are assumed to be constant annually. SIP investments are made
           monthly. Inflation rate is assumed to remain constant throughout the
           investment period.
         </p>
-
         <p>
           Mutual fund investments are subject to market risks. This calculator
           provides estimates for educational purposes only and does not
           guarantee returns.
         </p>
-      </section>
+      </DisclaimerSection>
+      <FAQSection 
+        title="SIP Calculator – Frequently Asked Questions"
+        items={[
+          {
+            question: "How is SIP maturity calculated?",
 
-<div className="h-px bg-gray-800/50 my-8" />
-      {/* FAQ */}
-       {/* FAQ */}
-<section className="mt-10">
-  <h2
-    // CHANGED: softer color + more spacing for section separation
-    className="text-lg font-medium text-gray-300 mb-4"
-  >
-    SIP Calculator – Frequently Asked Questions
-  </h2>
+            answer: "SIP returns are calculated using compound interest, assuming a fixed rate of return and monthly investments throughout the investment period."
 
-  {/* FAQ Item */}
-  <div className="mb-4">
-    <h3
-      // CHANGED: clearer question emphasis, not too bold
-      className="text-sm font-medium text-gray-300 mb-1"
-    >
-      How is SIP maturity calculated?
-    </h3>
-    <p
-      // CHANGED: improved readability with softer color + relaxed leading
-      className="text-sm text-gray-400 leading-relaxed"
-    >
-      SIP returns are calculated using compound interest, assuming a fixed rate
-      of return and monthly investments throughout the investment period.
-    </p>
-  </div>
+          },
+          {
+            question: "Is this SIP calculator accurate?",
+            answer: "This calculator provides estimates based on your inputs. Actual returns may vary depending on market performance and fund selection."
 
-  {/* FAQ Item */}
-  <div className="mb-4">
-    <h3 className="text-sm font-medium text-gray-300 mb-1">
-      Is this SIP calculator accurate?
-    </h3>
-    <p className="text-sm text-gray-400 leading-relaxed">
-      This calculator provides estimates based on your inputs. Actual returns
-      may vary depending on market performance and fund selection.
-    </p>
-  </div>
-
-  {/* FAQ Item */}
-  <div>
-    <h3 className="text-sm font-medium text-gray-300 mb-1">
-      What does inflation-adjusted value mean?
-    </h3>
-    <p className="text-sm text-gray-400 leading-relaxed">
-      Inflation-adjusted value shows what your investment will be worth in
-      today’s terms after accounting for inflation.
-    </p>
-  </div>
-</section>
-    </main>
+          },
+          {
+            question: "What does inflation-adjusted value mean?",
+            answer: "Inflation-adjusted value shows what your investment will be worth in today's terms after accounting for inflation."
+          }
+        ]}
+      />
+    </MainContainer>
   );
 }
