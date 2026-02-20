@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { StickyNavigation } from "@/components/ui/StickyNavigation";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -57,9 +58,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+        <link rel="preload" href="/logo.png" as="image" type="image/png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <StickyNavigation />
         {children}
       </body>
     </html>

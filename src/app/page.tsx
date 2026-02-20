@@ -23,14 +23,82 @@ export const metadata: Metadata = generatePageMetadata({
 });
 
 export default function Home() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://realmoneycalc.com/#organization",
+        "name": "RealMoneyCalc",
+        "url": "https://realmoneycalc.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://realmoneycalc.com/logo.png",
+          "width": 400,
+          "height": 400
+        },
+        "description": "Free financial calculators with inflation-adjusted returns for smart investors in India"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://realmoneycalc.com/#website",
+        "url": "https://realmoneycalc.com",
+        "name": "RealMoneyCalc - Financial Calculators",
+        "description": "Calculate real inflation-adjusted returns for SIP, investments, and financial planning in India",
+        "publisher": {
+          "@id": "https://realmoneycalc.com/#organization"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "SIP Calculator with Inflation Adjustment",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "description": "Calculate mutual fund SIP returns with real purchasing power analysis after inflation",
+        "url": "https://realmoneycalc.com/sip-calculator",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "featureList": [
+          "Inflation-adjusted returns calculation",
+          "Real purchasing power analysis", 
+          "Monthly SIP investment planning",
+          "Compound interest calculation"
+        ]
+      }
+    ]
+  };
+
   return (
-    <PageContainer maxWidth="xl">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <PageContainer maxWidth="xl">
       {/* Hero Section */}
       <Section background="default" padding="lg">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center">
+            <div className="bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg border border-gray-200 dark:border-gray-700 w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center">
+              <img 
+                src="/logo.png" 
+                alt="RealMoneyCalc - Financial Calculators" 
+                className="w-14 h-14 sm:w-16 sm:h-16"
+                width="64"
+                height="64"
+                loading="eager"
+                decoding="sync"
+              />
+            </div>
+          </div>
+        </div>
         <PageHeader
           title="Smart Financial Planning Starts Here"
           description="Don't just calculate returns – understand what your money will really be worth. Get inflation-adjusted insights that show your true wealth growth potential."
-          icon="💰"
+          className="text-center"
         />
         
         <div className="text-center mt-8">
@@ -182,5 +250,6 @@ export default function Home() {
       {/* Footer */}
       <Footer />
     </PageContainer>
+    </>
   );
 }

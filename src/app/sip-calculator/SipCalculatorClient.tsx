@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { SipCalculator } from "@/calculators/sip/sipCalculator";
 import { IndiaSipAssumptions } from "@/calculators/sip/assumptions";
 import { 
@@ -170,11 +171,25 @@ export default function SipCalculatorClient() {
   return (
     <PageContainer maxWidth="lg">
       
-      {/* Header */}
+      {/* Header with Logo */}
+      <div className="mb-4">
+        <Link href="/" className="inline-flex items-center hover:opacity-80 transition-all duration-200 hover:scale-105">
+          <div className="bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg border border-gray-200 dark:border-gray-700 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
+            <img 
+              src="/logo.png" 
+              alt="RealMoneyCalc" 
+              className="w-10 h-10 sm:w-12 sm:h-12"
+              width="48"
+              height="48"
+              loading="eager"
+              decoding="sync"
+            />
+          </div>
+        </Link>
+      </div>
       <PageHeader
         title="SIP Calculator with Real Returns"
         description="Calculate your mutual fund SIP returns and see what your money will actually be worth after inflation. Get the complete picture of your financial growth."
-        icon="📈"
         breadcrumb={[
           { label: 'Home', href: '/' },
           { label: 'SIP Calculator', href: '/sip-calculator' }
