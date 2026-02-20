@@ -187,6 +187,38 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   return (
     <footer className={`mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 ${className}`}>
+      {/* Navigation Links */}
+      <div className="flex flex-wrap justify-center items-center gap-4 mb-6 text-sm">
+        <Link 
+          href="/about" 
+          className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        >
+          About Us
+        </Link>
+        <span className="text-gray-300 dark:text-gray-600">•</span>
+        <Link 
+          href="/disclaimer" 
+          className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        >
+          Disclaimer
+        </Link>
+        <span className="text-gray-300 dark:text-gray-600">•</span>
+        <Link 
+          href="/privacy" 
+          className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        >
+          Privacy Policy
+        </Link>
+        <span className="text-gray-300 dark:text-gray-600">•</span>
+        <a 
+          href="mailto:contact@realmoneycalc.com" 
+          className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+        >
+          Contact
+        </a>
+      </div>
+      
+      {/* Copyright and Disclaimer */}
       <div className="text-center text-sm text-gray-600 dark:text-gray-400">
         <p className="mb-2">
           © 2025 RealMoneyCalc. Made with ❤️ for smart investors in India.
