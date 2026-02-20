@@ -172,8 +172,8 @@ export default function SipCalculatorClient() {
     <PageContainer maxWidth="lg">
       
       {/* Header with Logo */}
-      <div className="mb-4">
-        <Link href="/" className="inline-flex items-center hover:opacity-80 transition-all duration-200 hover:scale-105">
+      <div className="text-center mb-4">
+        <Link href="/" className="inline-flex items-center justify-center hover:opacity-80 transition-all duration-200 hover:scale-105">
           <div className="bg-white dark:bg-gray-800 rounded-full p-2 shadow-lg border border-gray-200 dark:border-gray-700 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
             <img 
               src="/logo.png" 
