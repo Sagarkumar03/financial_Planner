@@ -86,11 +86,6 @@ export const InflationBanner: React.FC<InflationBannerProps> = ({ className = ''
             Our calculators show you what your money will actually be worth in today's terms.
           </p>
         </div>
-        <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 text-center min-w-[120px]">
-          <div className="text-xs text-emerald-100 mb-1">India Avg.</div>
-          <div className="text-xl font-bold">6% p.a.</div>
-          <div className="text-xs text-emerald-100">Inflation</div>
-        </div>
       </div>
     </div>
   );
