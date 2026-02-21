@@ -51,7 +51,7 @@ export const STEP_UP_SIP_CONTENT = {
   faq: [
     {
       question: "What is Step-Up SIP and how does it work?",
-      answer: "A Step-Up SIP allows you to increase your monthly investment amount periodically (usually annually) by a predetermined percentage. For example, if you start with ₹10,000/month with 10% annual increase, your SIP becomes ₹11,000 in year 2, ₹12,100 in year 3, and so on."
+      answer: "A Step-Up SIP (also called Top-Up SIP) allows you to increase your monthly investment amount periodically (usually annually) by a predetermined percentage. For example, if you start with ₹10,000/month with 10% annual increase, your SIP becomes ₹11,000 in year 2, ₹12,100 in year 3, and so on."
     },
     {
       question: "What should be the ideal step-up percentage?",
@@ -59,7 +59,7 @@ export const STEP_UP_SIP_CONTENT = {
     },
     {
       question: "How much more can I earn with Step-Up SIP vs regular SIP?",
-      answer: "Step-Up SIP can significantly boost your corpus. With 10% annual increases, you might earn 40-60% more than regular SIP over 15-20 years. The exact benefit depends on your step-up percentage, investment duration, and market returns."
+      answer: "A Step-Up SIP significantly accelerates wealth creation by aligning your investments with your rising income. For example, a 10% annual step-up can result in a final corpus that is 50% to 80% larger than a flat SIP over a 20-year period, even if you start with the same amount. This happens because the increased contributions in later years have a massive compounding effect on a larger base."
     }
   ],
   

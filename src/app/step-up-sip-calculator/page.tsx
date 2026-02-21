@@ -3,16 +3,19 @@ import StepUpSipCalculatorClient from "./StepUpSipCalculatorClient";
 import { generatePageMetadata } from "@/components/ui/EnhancedLayouts";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Step-Up SIP Calculator – RealMoneyCalc | Inflation-Adjusted SIP with Annual Increases",
-  description: "Calculate Step-Up SIP returns with annual increment feature. See how increasing your SIP annually can boost wealth creation with inflation-adjusted real purchasing power calculations for India.",
+  title: "Step-Up SIP Calculator (Top-Up SIP) – RealMoneyCalc | Inflation-Adjusted SIP with Annual Increases",
+  description: "Calculate Step-Up SIP (Top-Up SIP) returns with annual increment feature. See how increasing your SIP annually can boost wealth creation with inflation-adjusted real purchasing power calculations for India.",
   keywords: [
     "step up sip calculator",
+    "top up sip calculator",
     "sip calculator with annual increment", 
     "step up sip returns",
+    "top up sip returns",
     "inflation adjusted sip calculator",
     "annual increase sip calculator",
     "wealth creation calculator India",
     "mutual fund sip step up",
+    "mutual fund sip top up",
     "retirement planning calculator",
     "systematic investment plan calculator",
     "real purchasing power calculator"
@@ -27,7 +30,7 @@ export default function StepUpSipCalculatorPage() {
       {
         "@type": "WebApplication",
         "@id": "https://realmoneycalc.com/step-up-sip-calculator#webapp",
-        "name": "Step-Up SIP Calculator with Inflation Adjustment",
+        "name": "Step-Up SIP Calculator (Top-Up SIP) with Inflation Adjustment",
         "description": "Calculate Step-Up SIP returns with annual increment and inflation adjustment. See how increasing your SIP annually can boost wealth creation with real purchasing power analysis for India.",
         "url": "https://realmoneycalc.com/step-up-sip-calculator",
         "applicationCategory": "FinanceApplication",
