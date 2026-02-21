@@ -52,6 +52,7 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
             <Link 
               href="/" 
               className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+              aria-label="RealMoneyCalc homepage"
             >
               <div className="bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-sm border border-gray-200 dark:border-gray-700 w-11 h-11 flex items-center justify-center">
                 <img 
@@ -75,6 +76,7 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                 <Link
                   href="/"
                   className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap"
+                  aria-label="Go to homepage"
                 >
                   Home
                 </Link>
@@ -89,24 +91,27 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                     }}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                     type="button"
+                    aria-label="Scroll to calculators section"
                   >
                     Calculators
                   </button>
-                ) : pathname !== "/sip-calculator" ? (
-                  <Link
-                    href="/sip-calculator"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
-                  >
-                    SIP Calculator
-                  </Link>
-                ) : (
+                ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" ? (
                   <button
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                     type="button"
+                    aria-label="Scroll to top of page"
                   >
                     ↑ Top
                   </button>
+                ) : (
+                  <Link
+                    href="/sip-calculator"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
+                    aria-label="Go to SIP Calculator page"
+                  >
+                    SIP Calculator
+                  </Link>
                 )}
               </div>
             </div>

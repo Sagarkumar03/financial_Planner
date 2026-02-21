@@ -1,8 +1,29 @@
 import React from 'react';
 
 // Helper to format currency amounts consistently
-const formatCurrency = (amount: number) => {
+export const formatCurrency = (amount: number) => {
   return amount.toString().replace(/(\d)(?=(\d{2})+\d(?!\d))/g, '$1,');
+};
+
+// Helper to create screen reader friendly currency text
+const formatCurrencyForScreenReader = (amount: number) => {
+  const formattedAmount = formatCurrency(amount);
+  return `${formattedAmount} Indian Rupees`;
+};
+
+// Helper to convert number to words for better screen reader experience
+const formatAmountInWords = (amount: number) => {
+  if (amount >= 10000000) { // 1 crore or more
+    const crores = (amount / 10000000).toFixed(1);
+    return `${crores} crores`;
+  } else if (amount >= 100000) { // 1 lakh or more
+    const lakhs = (amount / 100000).toFixed(1);
+    return `${lakhs} lakhs`;
+  } else if (amount >= 1000) { // 1 thousand or more
+    const thousands = (amount / 1000).toFixed(1);
+    return `${thousands} thousands`;
+  }
+  return formatCurrency(amount);
 };
 
 // Reusable monetary value component
@@ -43,8 +64,14 @@ export const MonetaryValue: React.FC<MonetaryValueProps> = ({
   };
 
   return (
-    <div className={`${sizeClasses[size]} ${weightClasses[weight]} ${colorClasses[color]} text-right tracking-tight ${className}`}>
-      ₹ {formatCurrency(amount)}
+    <div 
+      className={`${sizeClasses[size]} ${weightClasses[weight]} ${colorClasses[color]} text-right tracking-tight ${className}`}
+      aria-label={formatCurrencyForScreenReader(amount)}
+      title={`${formatAmountInWords(amount)} (${formatCurrencyForScreenReader(amount)})`}
+    >
+      <span aria-hidden="true">
+        ₹ {formatCurrency(amount)}
+      </span>
     </div>
   );
 };
@@ -69,9 +96,12 @@ export const FinancialMetric: React.FC<FinancialMetricProps> = ({
   weight = 'medium',
   className = ''
 }) => {
+  const metricId = React.useId();
+  const descriptionId = React.useId();
+  
   return (
-    <div className={`mb-3 ${className}`}>
-      <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+    <div className={`mb-3 ${className}`} role="group" aria-labelledby={metricId}>
+      <div id={metricId} className="text-xs text-gray-600 dark:text-gray-400 mb-1">
         {label}
       </div>
       <MonetaryValue 
@@ -81,7 +111,7 @@ export const FinancialMetric: React.FC<FinancialMetricProps> = ({
         weight={weight}
       />
       {description && (
-        <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+        <div id={descriptionId} className="text-xs text-gray-600 dark:text-gray-400 mt-1" aria-label={`Additional information: ${description}`}>
           {description}
         </div>
       )}
@@ -92,7 +122,7 @@ export const FinancialMetric: React.FC<FinancialMetricProps> = ({
 // Reusable divider component
 export const FinancialDivider: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <div className={`h-px bg-blue-200 dark:bg-gray-700 my-4 ${className}`} />
+    <div className={`h-px bg-blue-200 dark:bg-gray-700 my-4 ${className}`} role="separator" aria-hidden="true" />
   );
 };
 
@@ -134,11 +164,19 @@ export const HighlightedMetric: React.FC<HighlightedMetricProps> = ({
   icon,
   className = ''
 }) => {
+  const metricId = React.useId();
+  const descriptionId = React.useId();
+  
   return (
-    <div className={`bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-amber-200 dark:border-amber-800/30 ${className}`}>
+    <div 
+      className={`bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg p-4 border border-amber-200 dark:border-amber-800/30 ${className}`}
+      role="region"
+      aria-labelledby={metricId}
+      aria-describedby={description ? descriptionId : undefined}
+    >
       <div className="flex items-center gap-2 mb-2">
-        {icon && <span className="text-amber-600 dark:text-amber-400 text-sm">{icon}</span>}
-        <div className="text-sm font-semibold text-amber-800 dark:text-amber-300">
+        {icon && <span className="text-amber-600 dark:text-amber-400 text-sm" aria-hidden="true">{icon}</span>}
+        <div id={metricId} className="text-sm font-semibold text-amber-800 dark:text-amber-300">
           {label}
         </div>
       </div>
@@ -149,7 +187,7 @@ export const HighlightedMetric: React.FC<HighlightedMetricProps> = ({
         weight="bold"
       />
       {description && (
-        <div className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+        <div id={descriptionId} className="text-xs text-amber-700 dark:text-amber-400 mt-1">
           {description}
         </div>
       )}
@@ -179,33 +217,35 @@ export const Toggle: React.FC<ToggleProps> = ({
   label,
   className = ''
 }) => {
+  const labelId = React.useId();
+  
   return (
-    <div 
-      className={`mb-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-2 -m-2 ${className}`}
-      onClick={() => onChange(!checked)}
-    >
-      <span className="text-sm font-medium text-gray-900 dark:text-gray-100 underline cursor-pointer">
-        {label}
-      </span>
+    <div className={`flex items-center gap-3 ${className}`}>
       <button
         id={id}
         role="switch"
         aria-checked={checked}
-        onClick={(e) => {
-          e.stopPropagation();
-          onChange(!checked);
-        }}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition
-          ${checked ? "bg-emerald-500" : "bg-gray-400"}`}
+        aria-labelledby={labelId}
+        onClick={() => onChange(!checked)}
+        className={`
+          relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200
+          ${checked ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'}
+          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900
+        `}
       >
+        <span className="sr-only">
+          {checked ? 'Disable' : 'Enable'} {label}
+        </span>
         <span
-          className={`inline-block h-5 w-5 transform rounded-full bg-white transition
-            ${checked ? "translate-x-5" : "translate-x-1"}`}
+          className={`
+            inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200
+            ${checked ? 'translate-x-6' : 'translate-x-1'}
+          `}
         />
       </button>
+      <label id={labelId} htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+        {label}
+      </label>
     </div>
   );
 };
-
-// Export formatting utility
-export { formatCurrency };

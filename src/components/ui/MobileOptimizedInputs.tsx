@@ -38,6 +38,8 @@ export const MobileFormInput: React.FC<MobileFormInputProps> = ({
   isHydrated = true
 }) => {
   const [isFocused, setIsFocused] = useState(false);
+  const inputId = React.useId();
+  const helperTextId = React.useId();
   
   const displayValue = type === 'currency' && isHydrated ? formatNumber(value) : value;
   
@@ -64,15 +66,25 @@ export const MobileFormInput: React.FC<MobileFormInputProps> = ({
     }
   };
 
+  const getAriaLabel = () => {
+    let ariaLabel = label;
+    if (type === 'currency') {
+      ariaLabel += ' in Indian Rupees';
+    } else if (type === 'percentage') {
+      ariaLabel += ' as a percentage';
+    }
+    return ariaLabel;
+  };
+
   return (
     <div className={`mb-6 ${className}`}>
-      <label className="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
+      <label htmlFor={inputId} className="block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
         <div className="flex items-center gap-2">
-          {icon && <span className="text-lg">{icon}</span>}
+          {icon && <span className="text-lg" aria-hidden="true">{icon}</span>}
           {label}
         </div>
         {helperText && (
-          <span className="text-xs font-normal text-gray-600 dark:text-gray-400 mt-1 block">
+          <span id={helperTextId} className="text-xs font-normal text-gray-600 dark:text-gray-400 mt-1 block">
             {helperText}
           </span>
         )}
@@ -81,12 +93,13 @@ export const MobileFormInput: React.FC<MobileFormInputProps> = ({
       <div className={`relative transition-all duration-200 ${isFocused ? 'transform scale-[1.01]' : ''}`}>
         <div className="relative">
           {type === 'currency' && (
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium">
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium" aria-hidden="true">
               ₹
             </div>
           )}
           
           <input
+            id={inputId}
             type="text"
             inputMode={getInputMode()}
             value={displayValue}
@@ -97,6 +110,11 @@ export const MobileFormInput: React.FC<MobileFormInputProps> = ({
             }}
             onFocus={() => setIsFocused(true)}
             placeholder={getPlaceholder()}
+            aria-label={getAriaLabel()}
+            aria-describedby={helperText ? helperTextId : undefined}
+            min={min}
+            max={max}
+            step={step}
             suppressHydrationWarning={true}
             className={`
               w-full h-14 text-lg font-medium border-2 rounded-xl shadow-sm
@@ -114,7 +132,7 @@ export const MobileFormInput: React.FC<MobileFormInputProps> = ({
           />
           
           {unit && (
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium">
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 font-medium" aria-hidden="true">
               {unit}
             </div>
           )}
@@ -144,6 +162,9 @@ export const MobileToggle: React.FC<MobileToggleProps> = ({
   icon,
   className = ''
 }) => {
+  const labelId = React.useId();
+  const descriptionId = React.useId();
+  
   return (
     <div 
       className={`
@@ -155,17 +176,27 @@ export const MobileToggle: React.FC<MobileToggleProps> = ({
         ${className}
       `}
       onClick={() => onChange(!checked)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onChange(!checked);
+        }
+      }}
+      aria-labelledby={labelId}
+      aria-describedby={description ? descriptionId : undefined}
     >
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            {icon && <span className="text-lg">{icon}</span>}
-            <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+            {icon && <span className="text-lg" aria-hidden="true">{icon}</span>}
+            <span id={labelId} className="text-sm font-semibold text-gray-900 dark:text-gray-100">
               {label}
             </span>
           </div>
           {description && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+            <p id={descriptionId} className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
               {description}
             </p>
           )}
@@ -175,6 +206,8 @@ export const MobileToggle: React.FC<MobileToggleProps> = ({
           id={id}
           role="switch"
           aria-checked={checked}
+          aria-labelledby={labelId}
+          aria-describedby={description ? descriptionId : undefined}
           onClick={(e) => {
             e.stopPropagation();
             onChange(!checked);
@@ -182,9 +215,12 @@ export const MobileToggle: React.FC<MobileToggleProps> = ({
           className={`
             relative inline-flex h-7 w-12 items-center rounded-full transition-all duration-300
             ${checked ? 'bg-emerald-500' : 'bg-gray-300 dark:bg-gray-600'}
-            focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+            focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50 dark:focus:ring-offset-gray-900
           `}
         >
+          <span className="sr-only">
+            {checked ? 'Turn off' : 'Turn on'} {label}
+          </span>
           <span
             className={`
               inline-block h-5 w-5 transform rounded-full bg-white transition-transform duration-300 shadow-sm
@@ -213,22 +249,27 @@ export const QuickPresets: React.FC<QuickPresetsProps> = ({
   currentValue,
   className = ''
 }) => {
+  const labelId = React.useId();
+  
   return (
     <div className={`mb-4 ${className}`}>
-      <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
+      <div id={labelId} className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
         {label}
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2" role="group" aria-labelledby={labelId}>
         {presets.map((preset) => (
           <button
             key={preset.value}
             onClick={() => onPresetSelect(preset.value)}
+            aria-label={`Set ${label.toLowerCase()} to ${preset.label}`}
+            aria-pressed={currentValue === preset.value}
             className={`
               px-3 py-2 text-xs font-medium rounded-lg border transition-all duration-200
               ${currentValue === preset.value
                 ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300'
                 : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500'
               }
+              focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1
             `}
           >
             {preset.label}

@@ -41,51 +41,55 @@ export const CommonCalculatorInputs: React.FC<CommonCalculatorInputsProps> = ({
   additionalInputs,
   toggleId
 }) => {
+  const sectionId = React.useId();
+  
   return (
     <Section background="card" padding="lg">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-        <span>🎯</span>
+      <h2 id={sectionId} className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+        <span aria-hidden="true">🎯</span>
         Investment Details
       </h2>
 
-      {/* Monthly Investment */}
-      <MobileFormInput
-        label="Monthly SIP Amount"
-        value={inputs.monthlyInvestment}
-        onChange={handlers.handleMonthlyInvestmentChange}
-        onBlur={handlers.handleMonthlyInvestmentBlur}
-        type="currency"
-        helperText={COMMON_CONTENT.helperTexts.monthlyInvestment}
-        icon="💰"
-        isHydrated={isHydrated}
-      />
+      <div role="group" aria-labelledby={sectionId}>
+        {/* Monthly Investment */}
+        <MobileFormInput
+          label="Monthly SIP Amount"
+          value={inputs.monthlyInvestment}
+          onChange={handlers.handleMonthlyInvestmentChange}
+          onBlur={handlers.handleMonthlyInvestmentBlur}
+          type="currency"
+          helperText={COMMON_CONTENT.helperTexts.monthlyInvestment}
+          icon="💰"
+          isHydrated={isHydrated}
+        />
 
-      {/* Annual Return Rate */}
-      <MobileFormInput
-        label="Expected Annual Return"
-        value={inputs.annualReturnRate}
-        onChange={handlers.handleAnnualReturnChange}
-        onBlur={handlers.handleAnnualReturnBlur}
-        type="percentage"
-        unit="%"
-        helperText={COMMON_CONTENT.helperTexts.annualReturn}
-        icon="📊"
-      />
+        {/* Annual Return Rate */}
+        <MobileFormInput
+          label="Expected Annual Return"
+          value={inputs.annualReturnRate}
+          onChange={handlers.handleAnnualReturnChange}
+          onBlur={handlers.handleAnnualReturnBlur}
+          type="percentage"
+          unit="%"
+          helperText={COMMON_CONTENT.helperTexts.annualReturn}
+          icon="📊"
+        />
 
-      {/* Investment Duration */}
-      <MobileFormInput
-        label="Investment Duration"
-        value={inputs.investmentYears}
-        onChange={handlers.handleInvestmentYearsChange}
-        onBlur={handlers.handleInvestmentYearsBlur}
-        type="number"
-        unit="years"
-        helperText={COMMON_CONTENT.helperTexts.investmentDuration}
-        icon="⏰"
-      />
+        {/* Investment Duration */}
+        <MobileFormInput
+          label="Investment Duration"
+          value={inputs.investmentYears}
+          onChange={handlers.handleInvestmentYearsChange}
+          onBlur={handlers.handleInvestmentYearsBlur}
+          type="number"
+          unit="years"
+          helperText={COMMON_CONTENT.helperTexts.investmentDuration}
+          icon="⏰"
+        />
 
-      {/* Additional inputs for specific calculators */}
-      {additionalInputs}
+        {/* Additional inputs for specific calculators */}
+        {additionalInputs}
+      </div>
 
       {/* Inflation Toggle */}
       <div className="pt-4 border-t border-gray-200 dark:border-gray-700">

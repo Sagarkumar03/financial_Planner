@@ -19,12 +19,17 @@ export const InflationImpact: React.FC<InflationImpactProps> = ({
 }) => {
   const purchasingPower = futureAmount / Math.pow(1 + inflationRate / 100, years);
   const percentageLoss = ((futureAmount - purchasingPower) / futureAmount) * 100;
+  const titleId = React.useId();
 
   return (
-    <div className={`bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200/80 dark:border-amber-700/50 ${className}`}>
+    <div 
+      className={`bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-amber-200/80 dark:border-amber-700/50 ${className}`}
+      role="region"
+      aria-labelledby={titleId}
+    >
       <div className="text-center mb-4">
-        <div className="text-3xl mb-2">⚠️</div>
-        <h3 className="text-lg font-bold text-amber-800 dark:text-amber-200">
+        <div className="text-3xl mb-2" aria-hidden="true">⚠️</div>
+        <h3 id={titleId} className="text-lg font-bold text-amber-800 dark:text-amber-200">
           Real Value After Inflation
         </h3>
       </div>
@@ -34,7 +39,7 @@ export const InflationImpact: React.FC<InflationImpactProps> = ({
           <div className="text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">
             Nominal Value
           </div>
-          <div className="text-xl font-bold text-amber-900 dark:text-amber-100">
+          <div className="text-xl font-bold text-amber-900 dark:text-amber-100" aria-label={`Nominal value: ${futureAmount} Indian Rupees`}>
             ₹{formatCurrency(futureAmount)}
           </div>
           <div className="text-xs text-amber-600 dark:text-amber-400">
@@ -46,7 +51,7 @@ export const InflationImpact: React.FC<InflationImpactProps> = ({
           <div className="text-xs font-medium text-amber-700 dark:text-amber-300 mb-1">
             Real Value (Today's Money)
           </div>
-          <div className="text-xl font-bold text-amber-900 dark:text-amber-100">
+          <div className="text-xl font-bold text-amber-900 dark:text-amber-100" aria-label={`Real value in today's money: ${Math.round(purchasingPower)} Indian Rupees`}>
             ₹{formatCurrency(purchasingPower)}
           </div>
           <div className="text-xs text-amber-600 dark:text-amber-400">
@@ -73,12 +78,14 @@ interface InflationBannerProps {
 }
 
 export const InflationBanner: React.FC<InflationBannerProps> = ({ className = '' }) => {
+  const bannerId = React.useId();
+  
   return (
-    <div className={`bg-gradient-to-r from-emerald-600 to-blue-600 rounded-xl p-6 text-white mb-8 ${className}`}>
+    <div className={`bg-gradient-to-r from-emerald-600 to-blue-600 rounded-xl p-6 text-white mb-8 ${className}`} role="banner" aria-labelledby={bannerId}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <div className="text-4xl">💡</div>
+        <div className="text-4xl" aria-hidden="true">💡</div>
         <div className="flex-1">
-          <h2 className="text-lg sm:text-xl font-bold mb-2">
+          <h2 id={bannerId} className="text-lg sm:text-xl font-bold mb-2">
             Why Inflation-Adjusted Returns Matter
           </h2>
           <p className="text-emerald-100 text-sm sm:text-base leading-relaxed">
