@@ -167,17 +167,17 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* FD Calculator */}
+          {/* Lumpsum Calculator */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 opacity-75">
             <div className="text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/50 dark:to-purple-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">🏦</span>
+                <span className="text-3xl">💰</span>
               </div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                FD Calculator
+                Lumpsum Calculator
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                Fixed deposit returns with tax impact and real value analysis after inflation.
+                One-time investment returns with compound growth analysis and inflation adjustment.
               </p>
               <div className="inline-flex items-center text-purple-600 dark:text-purple-400 font-semibold">
                 Coming Soon 🚀
