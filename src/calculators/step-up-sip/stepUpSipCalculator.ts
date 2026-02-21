@@ -24,31 +24,24 @@ export class StepUpSipCalculator
 
     let totalInvested = 0;
     let maturityValue = 0;
+    let currentMonthlySIP = P0;
+    const monthlyRate = annualRate / 100 / 12;
 
-    const monthlyRate = annualRate / 12 / 100; // e.g., 12% -> 0.01
-    const yearlyGrowthRate = 1 + (annualRate / 100); // e.g., 1.12
+    for (let month = 1; month <= totalYears * 12; month++) {
+      // 1. Add to total invested
+      totalInvested += currentMonthlySIP;
 
-    for (let t = 1; t <= totalYears; t++) {
-      // 1. Current SIP amount for this year
-      let currentMonthlySIP = P0 * Math.pow(1 + (stepUpPercent / 100), t - 1);
-      
-      // 2. Total invested this year
-      totalInvested += currentMonthlySIP * 12;
+      // 2. Add current SIP to maturity value
+      maturityValue += currentMonthlySIP;
 
-      // 3. Future Value of this year's 12 installments at the END of this year
-      let fvYearEnd: number;
-      
-      if (monthlyRate === 0) {
-        // If no returns, just sum the payments
-        fvYearEnd = currentMonthlySIP * 12;
-      } else {
-        // Formula: P * [((1+m)^12 - 1) / m] * (1+m)
-        fvYearEnd = currentMonthlySIP * ((Math.pow(1 + monthlyRate, 12) - 1) / monthlyRate) * (1 + monthlyRate);
+      // 3. Apply 1 month of interest to the entire bucket
+      // This mimics the "Annuity Due" (investment at start of month)
+      maturityValue *= (1 + monthlyRate);
+
+      // 4. Every 12 months, increase the SIP amount
+      if (month % 12 === 0) {
+        currentMonthlySIP *= (1 + (stepUpPercent / 100));
       }
-
-      // 4. Grow that year's total to the very end of the total tenure
-      let yearsRemainingAfterThisYear = totalYears - t;
-      maturityValue += fvYearEnd * Math.pow(yearlyGrowthRate, yearsRemainingAfterThisYear);
     }
 
     let inflationAdjustedValue: number | undefined;
