@@ -207,7 +207,7 @@ export default function StepUpSipCalculatorClient() {
 
   return (
     <CalculatorLayout
-      title="Step-Up SIP Calculator (Top-Up SIP) with Real Returns"
+      title="Step-Up SIP Calculator with Real Returns"
       description="Calculate your step-up SIP (top-up SIP) returns with annual increments and see what your money will actually be worth after inflation."
       breadcrumbLabel="Step-Up SIP Calculator"
       breadcrumbHref="/step-up-sip-calculator"
