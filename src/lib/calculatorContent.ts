@@ -68,3 +68,29 @@ export const STEP_UP_SIP_CONTENT = {
     description: "By increasing your SIP by {increment}% annually, you're keeping pace with salary increments and inflation!"
   }
 };
+
+export const LUMPSUM_CONTENT = {
+  faq: [
+    {
+      question: "What is Lumpsum Investment and how does it work?",
+      answer: "A lumpsum investment is a one-time investment where you invest a large amount at once instead of making regular monthly investments. The money grows through compound interest over the investment period. It's ideal when you have surplus funds like bonuses, inheritance, or maturity proceeds."
+    },
+    {
+      question: "Lumpsum vs SIP - Which is better?",
+      answer: "Both have advantages. Lumpsum works well when markets are low or you have surplus funds. SIP reduces timing risk through rupee cost averaging. If you have a large amount and markets are at reasonable levels, lumpsum can potentially generate higher returns due to longer compounding period."
+    },
+    {
+      question: "What's the minimum amount for lumpsum investment?",
+      answer: "Most mutual funds have a minimum lumpsum investment of ₹1,000 to ₹5,000. However, for meaningful wealth creation, consider investing at least ₹50,000 to ₹1 lakh. The key is ensuring you won't need this money for at least 5-7 years to ride out market volatility."
+    },
+    {
+      question: "How much can I earn with lumpsum investment?",
+      answer: "Returns depend on the asset class and time horizon. Equity mutual funds have historically delivered 10-15% annually over 10+ year periods. A ₹1 lakh lumpsum investment at 12% annual returns becomes ₹6.1 lakhs in 15 years and ₹19.6 lakhs in 25 years due to compounding power."
+    }
+  ],
+  
+  benefits: {
+    title: "💰 Lumpsum Investment Benefits",
+    description: "Harness the full power of compounding with your one-time investment of ₹{amount}!"
+  }
+};

@@ -141,6 +141,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     { label: 'Home', href: '/', icon: '🏠' },
     { label: 'SIP Calculator', href: '/sip-calculator', icon: '📈' },
     { label: 'Step-Up SIP Calculator', href: '/step-up-sip-calculator', icon: '📊' },
+    { label: 'Lumpsum Calculator', href: '/lumpsum-calculator', icon: '💰' },
   ];
 
   // Filter out the current page to show only relevant navigation
@@ -228,7 +229,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           href="/about" 
           className="text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
         >
-          About Us
+          About
         </Link>
         <span className="text-gray-300 dark:text-gray-600">•</span>
         <Link 

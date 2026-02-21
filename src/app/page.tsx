@@ -122,7 +122,7 @@ export default function Home() {
           See both nominal returns and real purchasing power for complete financial clarity.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* SIP Calculator */}
           <Link href="/sip-calculator" className="group">
             <div className="bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-xl p-6 border-2 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-lg">
@@ -168,19 +168,45 @@ export default function Home() {
           </Link>
 
           {/* Lumpsum Calculator */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 opacity-75">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/50 dark:to-purple-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">💰</span>
+          <Link href="/lumpsum-calculator" className="group">
+            <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-xl p-6 border-2 border-purple-200 dark:border-purple-800 hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-300 hover:shadow-lg">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/50 dark:to-purple-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-3xl">💰</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Lumpsum Calculator
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Calculate one-time investment returns with <strong className="text-purple-600 dark:text-purple-400">compound growth analysis</strong>. 
+                  Perfect for one time investments.
+                </p>
+                <div className="inline-flex items-center text-purple-600 dark:text-purple-400 font-semibold group-hover:text-purple-700 dark:group-hover:text-purple-300">
+                  Calculate Now
+                  <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                </div>
               </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Lumpsum Calculator
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                One-time investment returns with compound growth analysis and inflation adjustment.
-              </p>
-              <div className="inline-flex items-center text-purple-600 dark:text-purple-400 font-semibold">
+            </div>
+          </Link>
+
+          {/* FIRE Calculator - Coming Soon */}
+          <div className="relative">
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 border-2 border-orange-200 dark:border-orange-800 transition-all duration-300 opacity-75">
+              {/* Coming Soon Badge */}
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                 Coming Soon 🚀
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-3xl">🔥</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Financial Independence (FIRE) Calculator
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Calculate your <strong className="text-orange-600 dark:text-orange-400">"Freedom Number" </strong> 
+                  And realistically <strong className="text-orange-600 dark:text-orange-400">When</strong> you can retire based on your expenses and inflation-adjusted corpus.
+                </p>
               </div>
             </div>
           </div>

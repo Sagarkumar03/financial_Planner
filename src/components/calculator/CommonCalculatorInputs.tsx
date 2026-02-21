@@ -32,6 +32,10 @@ interface CommonCalculatorInputsProps {
   isHydrated: boolean;
   additionalInputs?: React.ReactNode;
   toggleId: string;
+  customLabels?: {
+    monthlyInvestment?: string;
+    monthlyInvestmentHelper?: string;
+  };
 }
 
 export const CommonCalculatorInputs: React.FC<CommonCalculatorInputsProps> = ({
@@ -39,7 +43,8 @@ export const CommonCalculatorInputs: React.FC<CommonCalculatorInputsProps> = ({
   handlers,
   isHydrated,
   additionalInputs,
-  toggleId
+  toggleId,
+  customLabels
 }) => {
   const sectionId = React.useId();
   
@@ -53,12 +58,12 @@ export const CommonCalculatorInputs: React.FC<CommonCalculatorInputsProps> = ({
       <div role="group" aria-labelledby={sectionId}>
         {/* Monthly Investment */}
         <MobileFormInput
-          label="Monthly SIP Amount"
+          label={customLabels?.monthlyInvestment || "Monthly SIP Amount"}
           value={inputs.monthlyInvestment}
           onChange={handlers.handleMonthlyInvestmentChange}
           onBlur={handlers.handleMonthlyInvestmentBlur}
           type="currency"
-          helperText={COMMON_CONTENT.helperTexts.monthlyInvestment}
+          helperText={customLabels?.monthlyInvestmentHelper || COMMON_CONTENT.helperTexts.monthlyInvestment}
           icon="💰"
           isHydrated={isHydrated}
         />
