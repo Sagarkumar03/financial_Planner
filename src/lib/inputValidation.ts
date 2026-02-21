@@ -23,6 +23,11 @@ export const INPUT_LIMITS = {
     min: 0,
     max: 15, // 15%
     default: "6"
+  },
+  annualIncrement: {
+    min: 0,
+    max: 40, // 40%
+    default: "10"
   }
 } as const;
 

@@ -187,7 +187,7 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   return (
     <footer className={`mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 ${className}`}>
-      {/* Navigation Links */}
+      {/* Legal Links Only */}
       <div className="flex flex-wrap justify-center items-center gap-4 mb-6 text-sm">
         <Link 
           href="/about" 

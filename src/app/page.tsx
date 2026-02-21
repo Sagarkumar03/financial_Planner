@@ -146,22 +146,26 @@ export default function Home() {
           </Link>
 
           {/* Step-up SIP Calculator */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 opacity-75">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">💼</span>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Step-up SIP Calculator
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                Progressive SIP increases with inflation-adjusted growth projections. Perfect for growing income scenarios.
-              </p>
-              <div className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold">
-                Coming Soon 🚀
+          <Link href="/step-up-sip-calculator" className="group">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 hover:shadow-lg">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-3xl">📈</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Step-Up SIP Calculator
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Calculate SIP returns with <strong className="text-blue-600 dark:text-blue-400">annual increment increases</strong>. 
+                  Perfect for growing income and career progression scenarios.
+                </p>
+                <div className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold group-hover:text-blue-700 dark:group-hover:text-blue-300">
+                  Calculate Now
+                  <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
 
           {/* FD Calculator */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-gray-200 dark:border-gray-600 opacity-75">
