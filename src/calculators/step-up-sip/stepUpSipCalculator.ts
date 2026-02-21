@@ -8,15 +8,13 @@ export class StepUpSipCalculator
   calculate(input: StepUpSipInput, context?: typeof IndiaSipAssumptions): StepUpSipResult {
     const assumptions = context || IndiaSipAssumptions;
 
-    const initialMonthlyInvestment = input.monthlyInvestment;
-    const annualReturnRate = input.annualReturnRate / 100;
-    const years = input.investmentYears;
-    const annualIncrement = input.annualIncrement / 100;
-
-    const monthlyRate = annualReturnRate / assumptions.compoundingPerYear;
+    const P0 = input.monthlyInvestment;
+    const annualRate = input.annualReturnRate; // Already in percentage (e.g., 12)
+    const totalYears = input.investmentYears;
+    const stepUpPercent = input.annualIncrement; // Already in percentage (e.g., 10)
 
     // Edge cases
-    if (initialMonthlyInvestment <= 0 || years <= 0) {
+    if (P0 <= 0 || totalYears <= 0) {
       return {
         totalInvested: 0,
         maturityValue: 0,
@@ -27,44 +25,38 @@ export class StepUpSipCalculator
     let totalInvested = 0;
     let maturityValue = 0;
 
-    // Industry Standard Step-Up SIP Formula
-    for (let t = 1; t <= years; t++) {
-      // Step 1: Calculate SIP amount for year t
-      const P_t = initialMonthlyInvestment * Math.pow(1 + annualIncrement, t - 1);
-      
-      // Step 2: Add to total invested
-      totalInvested += P_t * 12;
+    const monthlyRate = annualRate / 12 / 100; // e.g., 12% -> 0.01
+    const yearlyGrowthRate = 1 + (annualRate / 100); // e.g., 1.12
 
-      // Step 3: Calculate FV of this year's 12 payments at end of year
-      let FV_year: number;
+    for (let t = 1; t <= totalYears; t++) {
+      // 1. Current SIP amount for this year
+      let currentMonthlySIP = P0 * Math.pow(1 + (stepUpPercent / 100), t - 1);
+      
+      // 2. Total invested this year
+      totalInvested += currentMonthlySIP * 12;
+
+      // 3. Future Value of this year's 12 installments at the END of this year
+      let fvYearEnd: number;
       
       if (monthlyRate === 0) {
         // If no returns, just sum the payments
-        FV_year = P_t * 12;
+        fvYearEnd = currentMonthlySIP * 12;
       } else {
-        // Annuity Due formula: P_t × [(1+m)^12 - 1]/m × (1+m)
-        FV_year = P_t * (Math.pow(1 + monthlyRate, 12) - 1) / monthlyRate * (1 + monthlyRate);
+        // Formula: P * [((1+m)^12 - 1) / m] * (1+m)
+        fvYearEnd = currentMonthlySIP * ((Math.pow(1 + monthlyRate, 12) - 1) / monthlyRate) * (1 + monthlyRate);
       }
 
-      // Step 4: Compound this year's result to final maturity
-      const remainingYears = years - t;
-      
-      if (remainingYears > 0) {
-        // Compound for remaining years: FV_year × (1+r)^(n-t)
-        const FV_final = FV_year * Math.pow(1 + annualReturnRate, remainingYears);
-        maturityValue += FV_final;
-      } else {
-        // Last year, no additional compounding needed
-        maturityValue += FV_year;
-      }
+      // 4. Grow that year's total to the very end of the total tenure
+      let yearsRemainingAfterThisYear = totalYears - t;
+      maturityValue += fvYearEnd * Math.pow(yearlyGrowthRate, yearsRemainingAfterThisYear);
     }
 
     let inflationAdjustedValue: number | undefined;
 
     if (input.adjustForInflation) {
-      const inflationRate = assumptions.inflationRate;
-      inflationAdjustedValue =
-        maturityValue / Math.pow(1 + inflationRate, years);
+      const inflationRate = assumptions.inflationRate * 100; // Convert to percentage
+      // Final Real Value (Inflation Adjusted)
+      inflationAdjustedValue = maturityValue / Math.pow(1 + (inflationRate / 100), totalYears);
     }
 
     return {
