@@ -10,15 +10,24 @@ interface StickyNavigationProps {
 
 export function StickyNavigation({ className = "" }: StickyNavigationProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const pathname = usePathname();
 
   // Throttled scroll handler to improve performance
   const handleScroll = useCallback(() => {
-    const shouldShow = window.scrollY > 100;
-    setIsVisible(shouldShow);
+    if (typeof window !== 'undefined') {
+      const shouldShow = window.scrollY > 100;
+      setIsVisible(shouldShow);
+    }
   }, []);
 
   useEffect(() => {
+    // Set hydration flag
+    setIsHydrated(true);
+    
+    // Only add scroll listeners after hydration
+    if (typeof window === 'undefined') return;
+
     // Throttle scroll events to max 60fps
     let ticking = false;
     
@@ -38,11 +47,17 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
 
   const isHomePage = pathname === "/";
 
+  // Don't render on server to avoid hydration mismatch
+  if (!isHydrated) {
+    return null;
+  }
+
   return (
     <div
       className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       } ${className}`}
+      suppressHydrationWarning
     >
       <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,8 +101,10 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                 {isHomePage ? (
                   <button
                     onClick={() => {
-                      const calculatorsSection = document.getElementById('calculators-section');
-                      calculatorsSection?.scrollIntoView({ behavior: 'smooth' });
+                      if (typeof document !== 'undefined') {
+                        const calculatorsSection = document.getElementById('calculators-section');
+                        calculatorsSection?.scrollIntoView({ behavior: 'smooth' });
+                      }
                     }}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                     type="button"
@@ -97,7 +114,11 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                   </button>
                 ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" ? (
                   <button
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={() => {
+                      if (typeof window !== 'undefined') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
                     className="bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
                     type="button"
                     aria-label="Scroll to top of page"

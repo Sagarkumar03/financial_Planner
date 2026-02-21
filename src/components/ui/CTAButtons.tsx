@@ -8,7 +8,9 @@ interface CTAButtonsProps {
 
 export const CTAButtons: React.FC<CTAButtonsProps> = ({ className = '' }) => {
   const scrollToCalculators = () => {
-    document.getElementById('calculators-section')?.scrollIntoView({ behavior: 'smooth' });
+    if (typeof document !== 'undefined') {
+      document.getElementById('calculators-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (

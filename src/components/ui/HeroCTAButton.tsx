@@ -6,7 +6,9 @@ interface HeroCTAButtonProps {
 
 export const HeroCTAButton: React.FC<HeroCTAButtonProps> = ({ className = '' }) => {
   const scrollToCalculators = () => {
-    document.getElementById('calculators-section')?.scrollIntoView({ behavior: 'smooth' });
+    if (typeof document !== 'undefined') {
+      document.getElementById('calculators-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
