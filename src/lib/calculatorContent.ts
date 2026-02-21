@@ -41,12 +41,8 @@ export const SIP_CONTENT = {
       answer: "This calculator provides estimates based on your inputs assuming constant returns. Actual mutual fund returns vary based on market performance, fund selection, and economic conditions. Use this as a planning tool, not a guarantee."
     },
     {
-      question: "What does inflation-adjusted value mean?",
-      answer: "Inflation-adjusted value shows what your investment will be worth in today's purchasing power. For example, if you have ₹1 crore in 20 years, it shows how much stuff that money can actually buy compared to today's prices."
-    },
-    {
-      question: "What's a realistic return expectation for SIPs?",
-      answer: "Historically, diversified equity mutual funds in India have delivered 10-15% annual returns over long periods (15+ years). However, returns can be volatile in the short term. Conservative estimates of 10-12% are often used for long-term planning."
+      question: "Can I change my SIP amount later?",
+      answer: "Yes, most mutual fund companies allow you to increase, decrease, or pause your SIP. You can also start multiple SIPs in the same fund. It's advisable to review and adjust your SIP annually based on income changes and financial goals."
     }
   ]
 };
