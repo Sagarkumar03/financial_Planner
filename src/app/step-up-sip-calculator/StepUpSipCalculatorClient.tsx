@@ -314,7 +314,12 @@ export default function StepUpSipCalculatorClient() {
                 </div>
                 <div className="pt-2 border-t border-blue-200 dark:border-blue-700">
                   <p className="text-blue-700 dark:text-blue-300 text-xs leading-relaxed">
-                    {STEP_UP_SIP_CONTENT.benefits.description.replace('{increment}', parsedAnnualIncrement.toString())}
+                    {parsedAnnualIncrement >= parsedInflationRate 
+                      ? `By increasing your SIP by ${parsedAnnualIncrement}% annually, you're keeping pace with salary increments and inflation (${parsedInflationRate}%)!`
+                      : parsedAnnualIncrement >= parsedInflationRate * 0.5
+                        ? `Your ${parsedAnnualIncrement}% annual SIP increase helps partially offset inflation (${parsedInflationRate}%) and grows with your income.`
+                        : `Consider increasing your step-up percentage closer to inflation rate (${parsedInflationRate}%) to maintain purchasing power over time.`
+                    }
                   </p>
                 </div>
               </div>
