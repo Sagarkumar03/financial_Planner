@@ -10,7 +10,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "About Us – RealMoneyCalc | Smart Financial Planning Solutions",
-  description: "Learn about RealMoneyCalc, our mission to provide India's most accurate inflation-adjusted financial calculators, and our commitment to empowering smart investment decisions.",
+  description: "Learn about RealMoneyCalc, our mission to provide India's most realistic inflation-adjusted financial calculators, and our commitment to empowering smart investment decisions.",
   keywords: ["about realmoneycalc", "financial calculator team", "inflation-adjusted planning", "mission", "India financial tools"],
   path: "/about",
 });
@@ -20,7 +20,7 @@ export default function AboutPage() {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About RealMoneyCalc",
-    "description": "Learn about RealMoneyCalc and our mission to provide accurate financial planning tools for Indian investors",
+    "description": "Learn about RealMoneyCalc and our mission to provide realistic financial planning tools for Indian investors",
     "url": "https://realmoneycalc.com/about",
     "mainEntity": {
       "@type": "Organization",
@@ -28,7 +28,7 @@ export default function AboutPage() {
       "description": "Financial planning calculators with inflation adjustment for Indian investors",
       "url": "https://realmoneycalc.com",
       "foundingDate": "2025",
-      "mission": "To provide accurate, inflation-adjusted financial calculators that show real purchasing power"
+      "mission": "To provide realistic, inflation-adjusted financial calculators that show real purchasing power"
     }
   };
 
@@ -98,7 +98,7 @@ export default function AboutPage() {
                 I decided to combine my technical background with financial mathematics to create a suite of tools that focus on Real Value.
               </p>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                My goal is simple: To provide clean, fast, and mathematically accurate calculators that help you plan for your "Real" future—not just a number on a screen.
+                My goal is simple: To provide clean, fast, and mathematically realistic calculators that help you plan for your "Real" future—not just a number on a screen.
               </p>
             </div>
 

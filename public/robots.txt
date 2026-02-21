@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://realmoneycalc.com/sitemap.xml
+
+# Block unnecessary Next.js files
+Disallow: /_next/
+Disallow: /api/
+
+# Block development files
+Disallow: /_error
+Disallow: /_document
+Disallow: /_app
