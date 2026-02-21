@@ -100,16 +100,47 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 interface NavigationProps {
   currentPath?: string;
   className?: string;
+  showTopButton?: boolean;
 }
 
 export const Navigation: React.FC<NavigationProps> = ({
   currentPath = '/',
-  className = ''
+  className = '',
+  showTopButton = false
 }) => {
-  const navItems = [
+  if (showTopButton) {
+    return (
+      <nav className={`mb-6 ${className}`}>
+        <div className="flex flex-wrap gap-2 sm:gap-4 justify-center">
+          <Link
+            href="/"
+            className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border border-gray-200 dark:border-gray-600"
+          >
+            <span className="mr-2">🏠</span>
+            Home
+          </Link>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600"
+            type="button"
+          >
+            <span className="mr-2">⬆️</span>
+            Top
+          </button>
+        </div>
+      </nav>
+    );
+  }
+
+  // All available calculators
+  const allNavItems = [
     { label: 'Home', href: '/', icon: '🏠' },
     { label: 'SIP Calculator', href: '/sip-calculator', icon: '📈' },
+    { label: 'Step-Up SIP Calculator', href: '/step-up-sip-calculator', icon: '📊' },
   ];
+
+  // Filter out the current page to show only relevant navigation
+  const navItems = allNavItems.filter(item => item.href !== currentPath);
 
   return (
     <nav className={`mb-6 ${className}`}>
