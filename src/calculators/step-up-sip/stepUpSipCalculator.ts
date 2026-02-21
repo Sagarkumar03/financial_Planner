@@ -27,34 +27,36 @@ export class StepUpSipCalculator
     let totalInvested = 0;
     let maturityValue = 0;
 
-    // Calculate year by year with step-ups
-    for (let year = 1; year <= years; year++) {
-      // Calculate SIP amount for this year (with annual increment)
-      const yearlyInvestmentAmount = initialMonthlyInvestment * Math.pow(1 + annualIncrement, year - 1);
+    // Industry Standard Step-Up SIP Formula
+    for (let t = 1; t <= years; t++) {
+      // Step 1: Calculate SIP amount for year t
+      const P_t = initialMonthlyInvestment * Math.pow(1 + annualIncrement, t - 1);
       
-      // Calculate total investment for this year
-      const yearlyInvestment = yearlyInvestmentAmount * 12;
-      totalInvested += yearlyInvestment;
+      // Step 2: Add to total invested
+      totalInvested += P_t * 12;
 
-      // Calculate future value of this year's SIPs
-      const remainingYears = years - year + 1;
-      const totalMonthsForThisYear = remainingYears * 12;
-      
-      let yearMaturityValue: number;
+      // Step 3: Calculate FV of this year's 12 payments at end of year
+      let FV_year: number;
       
       if (monthlyRate === 0) {
-        yearMaturityValue = yearlyInvestmentAmount * 12 * remainingYears;
+        // If no returns, just sum the payments
+        FV_year = P_t * 12;
       } else {
-        // Calculate FV for each month's investment in this year
-        let yearTotal = 0;
-        for (let month = 1; month <= 12; month++) {
-          const monthsToMaturity = (remainingYears - 1) * 12 + (12 - month + 1);
-          yearTotal += yearlyInvestmentAmount * Math.pow(1 + monthlyRate, monthsToMaturity);
-        }
-        yearMaturityValue = yearTotal;
+        // Annuity Due formula: P_t × [(1+m)^12 - 1]/m × (1+m)
+        FV_year = P_t * (Math.pow(1 + monthlyRate, 12) - 1) / monthlyRate * (1 + monthlyRate);
       }
+
+      // Step 4: Compound this year's result to final maturity
+      const remainingYears = years - t;
       
-      maturityValue += yearMaturityValue;
+      if (remainingYears > 0) {
+        // Compound for remaining years: FV_year × (1+r)^(n-t)
+        const FV_final = FV_year * Math.pow(1 + annualReturnRate, remainingYears);
+        maturityValue += FV_final;
+      } else {
+        // Last year, no additional compounding needed
+        maturityValue += FV_year;
+      }
     }
 
     let inflationAdjustedValue: number | undefined;
