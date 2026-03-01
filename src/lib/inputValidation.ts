@@ -6,8 +6,13 @@
 export const INPUT_LIMITS = {
   monthlyInvestment: {
     min: 0,
-    max: 1_00_00_000, // 1 crore
+    max: 1_00_00_000, // 1 crore for SIP monthly investments
     default: "10000"
+  },
+  lumpsumInvestment: {
+    min: 0,
+    max: 100_000_000, // 10 crores for lumpsum investments
+    default: "100000"
   },
   annualReturnRate: {
     min: 0,

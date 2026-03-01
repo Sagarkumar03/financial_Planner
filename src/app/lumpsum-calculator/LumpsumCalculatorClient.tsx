@@ -28,7 +28,7 @@ import {
 const calculator = new LumpsumCalculator();
 
 export default function LumpsumCalculatorClient() {
-  const [initialInvestment, setInitialInvestment] = useState("100000");
+  const [initialInvestment, setInitialInvestment] = useState<string>(INPUT_LIMITS.lumpsumInvestment.default);
   const [annualReturnRate, setAnnualReturnRate] = useState("12");
   const [investmentYears, setInvestmentYears] = useState("10");
   const [adjustForInflation, setAdjustForInflation] = useState(true);
@@ -43,7 +43,7 @@ export default function LumpsumCalculatorClient() {
     const validInput = handleIntegerInput(value);
     if (validInput !== null) {
       const numValue = parseInt(validInput) || 0;
-      const clampedValue = Math.min(Math.max(numValue, INPUT_LIMITS.monthlyInvestment.min), INPUT_LIMITS.monthlyInvestment.max);
+      const clampedValue = Math.min(Math.max(numValue, INPUT_LIMITS.lumpsumInvestment.min), INPUT_LIMITS.lumpsumInvestment.max);
       setInitialInvestment(clampedValue.toString());
     }
   };
@@ -51,11 +51,11 @@ export default function LumpsumCalculatorClient() {
   const handleInitialInvestmentBlur = () => {
     const value = parseInt(initialInvestment);
     if (isNaN(value)) {
-      setInitialInvestment(INPUT_LIMITS.monthlyInvestment.default.toString());
+      setInitialInvestment(INPUT_LIMITS.lumpsumInvestment.default.toString());
       return;
     }
-    if (value > INPUT_LIMITS.monthlyInvestment.max) setInitialInvestment(INPUT_LIMITS.monthlyInvestment.max.toString());
-    if (value < INPUT_LIMITS.monthlyInvestment.min) setInitialInvestment(INPUT_LIMITS.monthlyInvestment.min.toString());
+    if (value > INPUT_LIMITS.lumpsumInvestment.max) setInitialInvestment(INPUT_LIMITS.lumpsumInvestment.max.toString());
+    if (value < INPUT_LIMITS.lumpsumInvestment.min) setInitialInvestment(INPUT_LIMITS.lumpsumInvestment.min.toString());
   };
 
   const handleAnnualReturnChange = (value: string) => {
@@ -108,7 +108,7 @@ export default function LumpsumCalculatorClient() {
     if (value > INPUT_LIMITS.inflationRate.max) setInflationRate(INPUT_LIMITS.inflationRate.max.toString());
     if (value < INPUT_LIMITS.inflationRate.min) setInflationRate(INPUT_LIMITS.inflationRate.min.toString());
   };
-  const parsedInitialInvestment = parseAndClampInteger(initialInvestment, INPUT_LIMITS.monthlyInvestment);
+  const parsedInitialInvestment = parseAndClampInteger(initialInvestment, INPUT_LIMITS.lumpsumInvestment);
   const parsedAnnualReturnRate = parseAndClampDecimal(annualReturnRate, INPUT_LIMITS.annualReturnRate);
   const parsedInvestmentYears = parseAndClampDecimal(investmentYears, INPUT_LIMITS.investmentYears);
   const parsedInflationRate = parseAndClampDecimal(inflationRate, INPUT_LIMITS.inflationRate);
