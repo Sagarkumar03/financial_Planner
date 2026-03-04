@@ -163,7 +163,7 @@ export default function SipCalculatorClient() {
 
   return (
     <CalculatorLayout
-      title="SIP Calculator with Real Returns"
+      title="SIP Calculator with Inflation-Adjusted Returns"
       description="Calculate your mutual fund SIP returns and see what your money will actually be worth after inflation. Get the complete picture of your financial growth."
       breadcrumbLabel="SIP Calculator"
       breadcrumbHref="/sip-calculator"
@@ -198,55 +198,53 @@ export default function SipCalculatorClient() {
         {/* Results */}
         <div className="lg:col-span-7">
           {/* Results */}
-          {isHydrated && (
-            <InflationAwareResults 
-              title="Your SIP Investment Summary"
-              inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
-              className="mb-6"
-            >
-              <FinancialMetric
-                label="Final Maturity Value"
-                amount={result.maturityValue}
-                description={`After ${investmentYears} years of SIP investing`}
-                color="primary"
-                weight="bold"
-                size="xl"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Total Amount Invested"
-                amount={result.totalInvested}
-                color="neutral"
-                weight="medium"
-                size="lg"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Estimated Wealth Gain"
-                amount={result.maturityValue - result.totalInvested}
-                color="success"
-                weight="semibold"
-                size="lg"
-              />
-              
-              {/* Inflation Adjusted Value */}
-              {result.inflationAdjustedValue !== undefined && (
-                <>
-                  <FinancialDivider />
-                  <HighlightedMetric
-                    label="💰 Real Value in Today's Money"
-                    amount={result.inflationAdjustedValue}
-                    description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
-                    icon="✨"
-                  />
-                </>
-              )}
-            </InflationAwareResults>
-          )}
+          <InflationAwareResults 
+            title="Your SIP Investment Summary"
+            inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
+            className="mb-6"
+          >
+            <FinancialMetric
+              label="Final Maturity Value"
+              amount={isHydrated ? result.maturityValue : 0}
+              description={`After ${investmentYears} years of SIP investing`}
+              color="primary"
+              weight="bold"
+              size="xl"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Total Amount Invested"
+              amount={isHydrated ? result.totalInvested : 0}
+              color="neutral"
+              weight="medium"
+              size="lg"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Estimated Wealth Gain"
+              amount={isHydrated ? (result.maturityValue - result.totalInvested) : 0}
+              color="success"
+              weight="semibold"
+              size="lg"
+            />
+            
+            {/* Inflation Adjusted Value */}
+            {isHydrated && result.inflationAdjustedValue !== undefined && (
+              <>
+                <FinancialDivider />
+                <HighlightedMetric
+                  label="💰 Real Value in Today's Money"
+                  amount={result.inflationAdjustedValue}
+                  description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
+                  icon="✨"
+                />
+              </>
+            )}
+          </InflationAwareResults>
         </div>
       </div>
 
@@ -270,7 +268,7 @@ export default function SipCalculatorClient() {
               Why Real Value Matters
             </h3>
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              Inflation reduces purchasing power over time. ₹1 lakh today won't buy the same things in 20 years. 
+              Inflation reduces purchasing power over time. ₹1 lakh today won&apos;t buy the same things in 20 years. 
               Our calculator shows both nominal returns and real purchasing power, helping you understand what your money will actually be worth.
             </p>
           </div>

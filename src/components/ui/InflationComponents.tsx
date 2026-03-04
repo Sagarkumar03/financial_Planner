@@ -89,7 +89,7 @@ export const InflationBanner: React.FC<InflationBannerProps> = ({ className = ''
             Why Inflation-Adjusted Returns Matter
           </h2>
           <p className="text-emerald-100 text-sm sm:text-base leading-relaxed">
-            Don't just look at the final number! <strong className="text-white">Real purchasing power</strong> is what matters. 
+            Don&apos;t just look at the final number! <strong className="text-white">Real purchasing power</strong> is what matters. 
             Our calculators show you what your money will actually be worth in today's terms.
           </p>
         </div>

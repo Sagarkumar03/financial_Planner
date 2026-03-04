@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import { 
-  PageContainer, 
-  PageHeader, 
-  Section, 
-  Footer 
+import Image from "next/image";
+import {
+  PageContainer,
+  PageHeader,
+  Section,
+  Footer
 } from "@/components/ui/EnhancedLayouts";
 import { generatePageMetadata } from "@/components/ui/EnhancedLayouts";
 import Link from "next/link";
 
 export const metadata: Metadata = generatePageMetadata({
   title: "Privacy Policy – RealMoneyCalc | Data Protection & Privacy Information",
-  description: "Learn how RealMoneyCalc protects your privacy. Our client-side calculators don't store your financial data, ensuring complete privacy for your planning.",
+  description: "Learn how RealMoneyCalc protects your privacy. Our client-side calculators don&apos;t store your financial data, ensuring complete privacy for your planning.",
   keywords: ["privacy policy", "data protection", "financial privacy", "client-side calculator", "secure financial planning"],
   path: "/privacy",
 });
@@ -39,14 +40,13 @@ export default function PrivacyPage() {
         {/* Header with Logo */}
         <div className="text-center pt-6 pb-2">
           <Link href="/" className="inline-block hover:scale-105 transition-transform duration-200">
-            <img 
+            <Image 
               src="/logo.png" 
               alt="RealMoneyCalc" 
               className="w-24 h-24 sm:w-28 sm:h-28 mx-auto drop-shadow-xl"
-              width="112"
-              height="112"
+              width={112}
+              height={112}
               loading="eager"
-              decoding="sync"
             />
           </Link>
         </div>

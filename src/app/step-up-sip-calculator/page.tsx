@@ -3,7 +3,7 @@ import StepUpSipCalculatorClient from "./StepUpSipCalculatorClient";
 import { generatePageMetadata } from "@/components/ui/EnhancedLayouts";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Step-Up SIP Calculator (Top-Up SIP) – RealMoneyCalc | Inflation-Adjusted SIP with Annual Increases",
+  title: "Step-Up SIP Calculator (Top-Up SIP) – Real Inflation-Adjusted Returns with Annual Increases (2026)",
   description: "Calculate Step-Up SIP (Top-Up SIP) returns with annual increment feature. See how increasing your SIP annually can boost wealth creation with inflation-adjusted real purchasing power calculations for India.",
   keywords: [
     "step up sip calculator",

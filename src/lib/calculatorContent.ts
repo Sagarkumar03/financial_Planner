@@ -94,3 +94,53 @@ export const LUMPSUM_CONTENT = {
     description: "Harness the full power of compounding with your one-time investment of ₹{amount}!"
   }
 };
+
+export const FIRE_CONTENT = {
+  faq: [
+    {
+      question: "What is FIRE (Financial Independence, Retire Early)?",
+      answer: "FIRE is a movement focused on achieving financial independence early through aggressive saving and investing. The goal is to accumulate enough wealth (your 'Freedom Number') so that you can live off investment returns without actively working. This calculator helps determine how much you need and when you can achieve this goal."
+    },
+    {
+      question: "What is the Freedom Number and how is it calculated?",
+      answer: "Your Freedom Number is the total corpus needed to maintain your lifestyle without working. It's calculated using the Safe Withdrawal Rate (SWR) formula: Freedom Number = Annual Expenses ÷ Safe Withdrawal Rate. For example, if your annual expenses are ₹6 lakhs and you use a 4% SWR, your Freedom Number is ₹1.5 crores."
+    },
+    {
+      question: "What is Safe Withdrawal Rate (SWR)?",
+      answer: "SWR is the percentage of your corpus you can withdraw annually without depleting your wealth. The popular '4% rule' suggests you can withdraw 4% annually and your money should last 30+ years. In India, due to higher inflation, many prefer 3-3.5%. This calculator uses 3.3% as the conservative default."
+    },
+    {
+      question: "Why does this calculator use step-up SIP instead of flat SIP?",
+      answer: "Step-up SIP is more realistic as your income typically grows 8-15% annually. By increasing your FIRE savings proportionally, you stay on track with your goals while maintaining your current lifestyle. A 10% annual step-up can increase your final corpus by 50-80% compared to a flat SIP."
+    },
+    {
+      question: "How much should I save for FIRE?",
+      answer: "A common guideline is the 25x rule: Save 25 times your annual expenses. However, the exact amount depends on your lifestyle, risk tolerance, and withdrawal rate. This calculator considers inflation, making it more accurate than simple rules of thumb. Typically, saving 40-60% of income accelerates FIRE significantly."
+    },
+    {
+      question: "Is FIRE realistic in the Indian context?",
+      answer: "Yes, but it requires discipline and higher savings rates than Western countries due to different social safety nets and inflation patterns. Many Indians achieve FIRE by combining aggressive saving (40-60% of income), smart investing in equity mutual funds, and sometimes real estate. Starting early (20s-30s) gives you the biggest advantage."
+    },
+    {
+      question: "What if I can't retire by my target age?",
+      answer: "The calculator shows your actual retirement timeline and the additional monthly savings needed to meet your target. You can adjust your plan by: increasing monthly savings, extending your retirement age by 2-3 years, reducing post-retirement expenses, or finding additional income sources. Small adjustments can make a big difference."
+    }
+  ],
+  
+  benefits: {
+    title: "🔥 FIRE Calculator Benefits",
+    description: "Calculate your path to Financial Independence with realistic projections including inflation and step-up savings!"
+  },
+  
+  assumptions: {
+    title: "📊 Key Assumptions Used",
+    items: [
+      "Annual Savings Step-up: {stepUp}% (compounds annually)",
+      "Inflation Rate: {inflation}% (affects expenses and calculations)", 
+      "Pre-Retirement Returns: {preReturns}% (equity mutual fund average)",
+      "Post-Retirement Returns: {postReturns}% (conservative portfolio)",
+      "Safe Withdrawal Rate: {swr}% (sustainable withdrawal)",
+      "Post-Retirement Expenses: {expenseRatio}% of current expenses"
+    ]
+  }
+};

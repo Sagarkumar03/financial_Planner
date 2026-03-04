@@ -207,7 +207,7 @@ export default function StepUpSipCalculatorClient() {
 
   return (
     <CalculatorLayout
-      title="Step-Up SIP Calculator with Real Returns"
+      title="Step-Up SIP Calculator with Inflation-Adjusted Returns"
       description="Calculate your step-up SIP (top-up SIP) returns with annual increments and see what your money will actually be worth after inflation."
       breadcrumbLabel="Step-Up SIP Calculator"
       breadcrumbHref="/step-up-sip-calculator"
@@ -243,55 +243,53 @@ export default function StepUpSipCalculatorClient() {
         {/* Results */}
         <div className="lg:col-span-7">
           {/* Results */}
-          {isHydrated && (
-            <InflationAwareResults 
-              title="Your Step-Up SIP Investment Summary"
-              inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
-              className="mb-6"
-            >
-              <FinancialMetric
-                label="Final Maturity Value"
-                amount={result.maturityValue}
-                description={`After ${investmentYears} years of step-up SIP investing`}
-                color="primary"
-                weight="bold"
-                size="xl"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Total Amount Invested"
-                amount={result.totalInvested}
-                color="neutral"
-                weight="medium"
-                size="lg"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Estimated Wealth Gain"
-                amount={result.maturityValue - result.totalInvested}
-                color="success"
-                weight="semibold"
-                size="lg"
-              />
-              
-              {/* Inflation Adjusted Value */}
-              {result.inflationAdjustedValue !== undefined && (
-                <>
-                  <FinancialDivider />
-                  <HighlightedMetric
-                    label="💰 Real Value in Today's Money"
-                    amount={result.inflationAdjustedValue}
-                    description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
-                    icon="✨"
-                  />
-                </>
-              )}
-            </InflationAwareResults>
-          )}
+          <InflationAwareResults 
+            title="Your Step-Up SIP Investment Summary"
+            inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
+            className="mb-6"
+          >
+            <FinancialMetric
+              label="Final Maturity Value"
+              amount={isHydrated ? result.maturityValue : 0}
+              description={`After ${investmentYears} years of step-up SIP investing`}
+              color="primary"
+              weight="bold"
+              size="xl"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Total Amount Invested"
+              amount={isHydrated ? result.totalInvested : 0}
+              color="neutral"
+              weight="medium"
+              size="lg"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Estimated Wealth Gain"
+              amount={isHydrated ? (result.maturityValue - result.totalInvested) : 0}
+              color="success"
+              weight="semibold"
+              size="lg"
+            />
+            
+            {/* Inflation Adjusted Value */}
+            {isHydrated && result.inflationAdjustedValue !== undefined && (
+              <>
+                <FinancialDivider />
+                <HighlightedMetric
+                  label="💰 Real Value in Today's Money"
+                  amount={result.inflationAdjustedValue}
+                  description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
+                  icon="✨"
+                />
+              </>
+            )}
+          </InflationAwareResults>
 
           {/* Additional Step-Up Details */}
           {isHydrated && (

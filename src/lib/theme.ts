@@ -186,10 +186,10 @@ export const theme = {
 // Utility functions for consistent styling
 export const getThemeClass = (category: string, variant: string = 'base') => {
   const categories = category.split('.');
-  let result = theme as any;
+  let result: Record<string, unknown> = theme;
   
   for (const cat of categories) {
-    result = result[cat];
+    result = result[cat] as Record<string, unknown>;
     if (!result) return '';
   }
   

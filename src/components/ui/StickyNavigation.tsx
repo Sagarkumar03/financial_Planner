@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -70,14 +71,13 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
               aria-label="RealMoneyCalc homepage"
             >
               <div className="bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-sm border border-gray-200 dark:border-gray-700 w-11 h-11 flex items-center justify-center">
-                <img 
+                <Image 
                   src="/logo.png" 
                   alt="RealMoneyCalc" 
+                  width={32}
+                  height={32}
                   className="w-8 h-8"
-                  width="32"
-                  height="32"
                   loading="eager"
-                  decoding="sync"
                 />
               </div>
               <span className="font-semibold text-gray-900 dark:text-white text-sm whitespace-nowrap">
@@ -112,7 +112,7 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                   >
                     Calculators
                   </button>
-                ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" || pathname === "/lumpsum-calculator" ? (
+                ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" || pathname === "/lumpsum-calculator" || pathname === "/fire-calculator" ? (
                   <button
                     onClick={() => {
                       if (typeof window !== 'undefined') {

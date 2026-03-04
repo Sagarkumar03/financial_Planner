@@ -142,6 +142,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     { label: 'SIP Calculator', href: '/sip-calculator', icon: '📈' },
     { label: 'Step-Up SIP Calculator', href: '/step-up-sip-calculator', icon: '📊' },
     { label: 'Lumpsum Calculator', href: '/lumpsum-calculator', icon: '💰' },
+    { label: 'FIRE Calculator', href: '/fire-calculator', icon: '🔥' },
   ];
 
   // Filter out the current page to show only relevant navigation

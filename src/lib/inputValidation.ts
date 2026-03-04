@@ -33,6 +33,57 @@ export const INPUT_LIMITS = {
     min: 0,
     max: 40, // 40%
     default: "10"
+  },
+  // FIRE Calculator specific inputs
+  currentAge: {
+    min: 18,
+    max: 70, // 70 years max current age
+    default: "30"
+  },
+  targetRetirementAge: {
+    min: 25,
+    max: 70, // 70 years max retirement age
+    default: "45"
+  },
+  currentAnnualExpenses: {
+    min: 0,
+    max: 1_00_00_000, // 1 crore annual expenses
+    default: "1000000"
+  },
+  existingRetirementCorpus: {
+    min: 0,
+    max: 25_00_00_000, // 25 crores existing corpus
+    default: "5000000"
+  },
+  monthlyFireSavings: {
+    min: 0,
+    max: 50_00_000, // 50 lakh monthly FIRE savings
+    default: "30000"
+  },
+  postRetirementExpense: {
+    min: 20,
+    max: 200, // 20% to 200% of current expenses
+    default: "100"
+  },
+  preRetirementReturns: {
+    min: 0,
+    max: 30, // 30%
+    default: "12"
+  },
+  postRetirementReturns: {
+    min: 0,
+    max: 25, // 25%
+    default: "8"
+  },
+  safeWithdrawalRate: {
+    min: 1,
+    max: 10, // 1% to 10%
+    default: "3.3"
+  },
+  lifeExpectancy: {
+    min: 50,
+    max: 100, // 100 years max life expectancy
+    default: "85"
   }
 } as const;
 
@@ -47,11 +98,12 @@ export const isValidInteger = (value: string): boolean => {
 
 /**
  * Validates if a string is a valid decimal number (digits with optional decimal point)
+ * Maximum 3 decimal places allowed
  * @param value The string to validate
- * @returns True if the string is a valid decimal format
+ * @returns True if the string is a valid decimal format with max 3 decimal places
  */
 export const isValidDecimal = (value: string): boolean => {
-  return /^\d*\.?\d*$/.test(value);
+  return /^\d*\.?\d{0,3}$/.test(value);
 };
 
 /**
@@ -66,12 +118,25 @@ export const handleIntegerInput = (value: string): string | null => {
 };
 
 /**
- * Handles decimal input validation
+ * Handles decimal input validation with max 3 decimal places
  * @param value The input value to process
  * @returns Original value if valid, null if invalid
  */
 export const handleDecimalInput = (value: string): string | null => {
-  return isValidDecimal(value) ? value : null;
+  // Check if valid decimal format with max 3 decimal places
+  if (!isValidDecimal(value)) {
+    return null;
+  }
+  
+  // If there's a decimal point, ensure max 3 digits after it
+  if (value.includes('.')) {
+    const [, decimalPart] = value.split('.');
+    if (decimalPart && decimalPart.length > 3) {
+      return null;
+    }
+  }
+  
+  return value;
 };
 
 /**

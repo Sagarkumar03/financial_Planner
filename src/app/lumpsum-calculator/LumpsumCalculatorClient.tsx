@@ -135,7 +135,7 @@ export default function LumpsumCalculatorClient() {
 
   return (
     <CalculatorLayout
-      title="Lumpsum Calculator with Real Returns"
+      title="Lumpsum Calculator with Inflation-Adjusted Returns"
       description="Calculate your lumpsum investment returns with compound growth and see what your money will actually be worth after inflation."
       breadcrumbLabel="Lumpsum Calculator"
       breadcrumbHref="/lumpsum-calculator"
@@ -173,56 +173,54 @@ export default function LumpsumCalculatorClient() {
 
         {/* Results Section */}
         <div className="lg:col-span-7 space-y-6">
-          {isHydrated && (
-            <InflationAwareResults 
-              title="Your Lumpsum Investment Summary"
-              inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
-              className="mb-6"
-            >
-              <FinancialMetric
-                label="Final Maturity Value"
-                amount={result.maturityValue}
-                description={`After ${investmentYears} years of lumpsum compounding`}
-                color="primary"
-                weight="bold"
-                size="xl"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Initial Investment"
-                amount={result.totalInvested}
-                description="Your one-time investment"
-                color="neutral"
-                weight="medium"
-                size="lg"
-              />
-              
-              <FinancialDivider />
-              
-              <FinancialMetric
-                label="Estimated Wealth Gain"
-                amount={totalReturns}
-                color="success"
-                weight="semibold"
-                size="lg"
-              />
+          <InflationAwareResults 
+            title="Your Lumpsum Investment Summary"
+            inflationMessage={adjustForInflation ? `Real value adjusted for ${inflationRate}% annual inflation` : undefined}
+            className="mb-6"
+          >
+            <FinancialMetric
+              label="Final Maturity Value"
+              amount={isHydrated ? result.maturityValue : 0}
+              description={`After ${investmentYears} years of lumpsum compounding`}
+              color="primary"
+              weight="bold"
+              size="xl"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Initial Investment"
+              amount={isHydrated ? result.totalInvested : 0}
+              description="Your one-time investment"
+              color="neutral"
+              weight="medium"
+              size="lg"
+            />
+            
+            <FinancialDivider />
+            
+            <FinancialMetric
+              label="Estimated Wealth Gain"
+              amount={isHydrated ? totalReturns : 0}
+              color="success"
+              weight="semibold"
+              size="lg"
+            />
 
-              {/* Inflation Adjusted Value */}
-              {result.inflationAdjustedValue !== undefined && (
-                <>
-                  <FinancialDivider />
-                  <HighlightedMetric
-                    label="💰 Real Value in Today's Money"
-                    amount={result.inflationAdjustedValue}
-                    description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
-                    icon="✨"
+            {/* Inflation Adjusted Value */}
+            {isHydrated && result.inflationAdjustedValue !== undefined && (
+              <>
+                <FinancialDivider />
+                <HighlightedMetric
+                  label="💰 Real Value in Today's Money"
+                  amount={result.inflationAdjustedValue}
+                  description={`What ₹${formatCurrency(result.maturityValue)} will actually buy in ${investmentYears} years`}
+                  icon="✨"
                   />
-                </>
-              )}
-            </InflationAwareResults>
-          )}
+              </>
+            )}
+          </InflationAwareResults>
 
           {/* Performance Metrics - Only show when inflation toggle is on */}
           {adjustForInflation && (
@@ -272,7 +270,7 @@ export default function LumpsumCalculatorClient() {
               Why Real Value Matters
             </h3>
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              Inflation reduces purchasing power over time. ₹1 lakh today won't buy the same things in {parsedInvestmentYears} years. 
+              Inflation reduces purchasing power over time. ₹1 lakh today won&apos;t buy the same things in {parsedInvestmentYears} years. 
               Our calculator shows both nominal returns and real purchasing power, helping you understand what your money will actually be worth.
             </p>
           </div>

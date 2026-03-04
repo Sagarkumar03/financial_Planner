@@ -1,6 +1,5 @@
 import { SipCalculator } from '../calculators/sip/sipCalculator';
-import { SipInput, SipResult } from '../calculators/sip/sipTypes';
-import { IndiaSipAssumptions } from '../calculators/sip/assumptions';
+import { SipInput } from '../calculators/sip/sipTypes';
 
 describe('SipCalculator', () => {
   let calculator: SipCalculator;

@@ -3,7 +3,7 @@ import LumpsumCalculatorClient from "./LumpsumCalculatorClient";
 import { generatePageMetadata } from "@/components/ui/EnhancedLayouts";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "Lumpsum Calculator – One-Time Investment Returns with Inflation Adjustment",
+  title: "Lumpsum Calculator – Real Inflation-Adjusted One-Time Investment Returns (2026)",
   description: "Calculate your lumpsum investment returns with compound growth and real purchasing power analysis. See what your one-time investment will be worth after inflation adjustment for Indian investors.",
   keywords: [
     "lumpsum calculator",
@@ -25,7 +25,7 @@ export default function LumpsumCalculatorPage() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "SoftwareApplication",
+        "@type": "WebApplication",
         "@id": "https://realmoneycalc.com/lumpsum-calculator#webapp",
         "name": "Lumpsum Calculator with Inflation Adjustment",
         "description": "Calculate lumpsum investment returns with compound growth and inflation adjustment. See what your one-time investment will be worth in real purchasing power for India.",
@@ -57,7 +57,6 @@ export default function LumpsumCalculatorPage() {
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://realmoneycalc.com/lumpsum-calculator#breadcrumb",
         "itemListElement": [
           {
             "@type": "ListItem",

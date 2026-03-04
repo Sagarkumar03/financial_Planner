@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   PageContainer, 
   PageHeader, 
@@ -83,21 +84,20 @@ export default function Home() {
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center">
             <div className="bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg border border-gray-200 dark:border-gray-700 w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="RealMoneyCalc - Financial Calculators" 
+                width={64}
+                height={64}
                 className="w-14 h-14 sm:w-16 sm:h-16"
-                width="64"
-                height="64"
                 loading="eager"
-                decoding="sync"
               />
             </div>
           </div>
         </div>
         <PageHeader
           title="Smart Financial Planning Starts Here"
-          description="Don't just calculate returns – understand what your money will really be worth. Get inflation-adjusted insights that show your true wealth growth potential."
+          description="Don&apos;t just calculate returns – understand what your money will really be worth. Get inflation-adjusted insights that show your true wealth growth potential."
           className="text-center"
         />
         
@@ -189,27 +189,29 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* FIRE Calculator - Coming Soon */}
-          <div className="relative">
-            <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 border-2 border-orange-200 dark:border-orange-800 transition-all duration-300 opacity-75">
-              {/* Coming Soon Badge */}
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-orange-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                Coming Soon 🚀
+          {/* FIRE Calculator */}
+          <Link href="/fire-calculator" className="block group">
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 border-2 border-orange-200 dark:border-orange-800 transition-all duration-300 group-hover:border-orange-300 dark:group-hover:border-orange-700 group-hover:shadow-lg group-hover:scale-105">
+              {/* NEW Badge */}
+              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                NEW ✨
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <span className="text-3xl">🔥</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                   Financial Independence (FIRE) Calculator
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                  Calculate your <strong className="text-orange-600 dark:text-orange-400">"Freedom Number" </strong> 
-                  And realistically <strong className="text-orange-600 dark:text-orange-400">When</strong> you can retire based on your expenses and inflation-adjusted corpus.
+                  Calculate your <strong className="text-orange-600 dark:text-orange-400">"Freedom Number"</strong> and realistically <strong className="text-orange-600 dark:text-orange-400">when</strong> you can retire based on your expenses and inflation-adjusted corpus.
                 </p>
+                <div className="flex items-center justify-center text-orange-600 dark:text-orange-400 font-medium text-sm group-hover:text-orange-700 dark:group-hover:text-orange-300">
+                  Calculate Your FIRE →
+                </div>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       </Section>
 

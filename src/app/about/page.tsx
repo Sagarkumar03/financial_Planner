@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { 
-  PageContainer, 
-  PageHeader, 
-  Section, 
-  Footer 
+import Image from "next/image";
+import {
+  PageContainer,
+  PageHeader,
+  Section,
+  Footer
 } from "@/components/ui/EnhancedLayouts";
 import { generatePageMetadata } from "@/components/ui/EnhancedLayouts";
 import Link from "next/link";
@@ -48,14 +49,13 @@ export default function AboutPage() {
         {/* Header with Logo */}
         <div className="text-center pt-6 pb-2">
           <Link href="/" className="inline-block hover:scale-105 transition-transform duration-200">
-            <img 
+            <Image 
               src="/logo.png" 
               alt="RealMoneyCalc" 
+              width={112}
+              height={112}
               className="w-24 h-24 sm:w-28 sm:h-28 mx-auto drop-shadow-xl"
-              width="112"
-              height="112"
               loading="eager"
-              decoding="sync"
             />
           </Link>
         </div>
@@ -123,7 +123,7 @@ export default function AboutPage() {
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
                   <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Privacy First</h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    I don't ask for your personal data, bank details, or contact info. Your financial planning stays between you and your browser.
+                    I don&apos;t ask for your personal data, bank details, or contact info. Your financial planning stays between you and your browser.
                   </p>
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-lg">
