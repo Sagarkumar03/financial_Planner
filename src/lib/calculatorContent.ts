@@ -144,3 +144,49 @@ export const FIRE_CONTENT = {
     ]
   }
 };
+
+export const LOAN_VS_SIP_CONTENT = {
+  faq: [
+    {
+      question: "Should I prepay my loan or invest in SIP?",
+      answer: "It depends on your loan interest rate vs expected SIP returns, risk tolerance, and liquidity needs. Our calculator helps you compare both strategies with different allocation splits. Generally, if your loan interest is higher than expected SIP returns, prioritize prepayment. If SIP returns are higher and you can tolerate risk, lean towards investing."
+    },
+    {
+      question: "What is the optimal split between prepayment and SIP?", 
+      answer: "There's no universal answer as it depends on personal circumstances. A balanced 50/50 approach often works well, reducing loan burden while building wealth. Conservative investors might prefer 70% prepayment, while aggressive investors might choose 70% SIP. Consider your risk tolerance, emergency fund, and other financial goals."
+    },
+    {
+      question: "Are the SIP returns in this calculator guaranteed?",
+      answer: "No, SIP returns are market-linked and not guaranteed. Our calculator uses expected returns for illustration purposes. Actual returns may vary significantly based on market conditions, fund selection, and economic cycles. Loan prepayment provides guaranteed savings equal to your loan interest rate."
+    },
+    {
+      question: "Should I consider tax implications in my decision?",
+      answer: "Absolutely! Loan prepayment saves post-tax money, while SIP gains are subject to capital gains tax. For home loans, prepayment also reduces tax benefits on interest paid (up to ₹2 lakhs under Section 24). Consider consulting a tax advisor for personalized advice."
+    },
+    {
+      question: "What about emergency fund and liquidity?",
+      answer: "Never compromise your emergency fund for loan prepayment. SIP investments can be redeemed if needed (though not ideal), but prepaid loan amounts cannot be retrieved. Maintain 6-12 months of expenses in liquid funds before aggressive prepayment. Consider this when deciding your split strategy."
+    },
+    {
+      question: "How does inflation affect this comparison?",
+      answer: "Inflation erodes the real burden of fixed-rate loans over time, making prepayment relatively less attractive. However, it also affects your future purchasing power. Our calculator shows inflation-adjusted values to help you understand the real impact of both strategies on your wealth."
+    }
+  ],
+  
+  benefits: {
+    title: "🎯 Loan vs SIP Strategy Benefits", 
+    description: "Find your optimal balance between reducing debt and building wealth with our smart allocation calculator!"
+  },
+
+  assumptions: {
+    title: "📊 Key Assumptions Used",
+    items: [
+      "Loan Interest Rate: {loanRate}% (guaranteed savings rate)",
+      "Expected SIP Return: {sipReturn}% (market-linked, not guaranteed)", 
+      "Annual Step-up: {stepUp}% (applies to both prepayment and SIP)",
+      "Inflation Rate: {inflation}% (affects real purchasing power)",
+      "Split Strategy: {prepayPercent}% Prepayment / {sipPercent}% Investment",
+      "Investment Horizon: Based on remaining loan tenure"
+    ]
+  }
+};

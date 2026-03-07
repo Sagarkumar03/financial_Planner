@@ -122,7 +122,7 @@ export default function Home() {
           See both nominal returns and real purchasing power for complete financial clarity.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {/* SIP Calculator */}
           <Link href="/sip-calculator" className="group">
             <div className="bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-xl p-6 border-2 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-lg">
@@ -192,10 +192,6 @@ export default function Home() {
           {/* FIRE Calculator */}
           <Link href="/fire-calculator" className="block group">
             <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-xl p-6 border-2 border-orange-200 dark:border-orange-800 transition-all duration-300 group-hover:border-orange-300 dark:group-hover:border-orange-700 group-hover:shadow-lg group-hover:scale-105">
-              {/* NEW Badge */}
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-green-500 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-                NEW ✨
-              </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <span className="text-3xl">🔥</span>
@@ -208,6 +204,28 @@ export default function Home() {
                 </p>
                 <div className="flex items-center justify-center text-orange-600 dark:text-orange-400 font-medium text-sm group-hover:text-orange-700 dark:group-hover:text-orange-300">
                   Calculate Your FIRE →
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* Loan vs SIP Calculator */}
+          <Link href="/loan-vs-sip" className="group">
+            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-6 border-2 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-lg">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-emerald-200 dark:from-emerald-900/50 dark:to-emerald-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-3xl">⚖️</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Loan vs SIP Calculator
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Should you prepay your loan or invest in SIP? Find the <strong className="text-emerald-600 dark:text-emerald-400"> optimal split strategy</strong> 
+                  for maximum financial benefit.
+                </p>
+                <div className="inline-flex items-center text-emerald-600 dark:text-emerald-400 font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
+                  Calculate Strategy
+                  <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
                 </div>
               </div>
             </div>

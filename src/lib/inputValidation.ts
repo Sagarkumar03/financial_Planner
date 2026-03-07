@@ -84,6 +84,42 @@ export const INPUT_LIMITS = {
     min: 50,
     max: 100, // 100 years max life expectancy
     default: "85"
+  },
+  // Loan vs SIP Calculator specific inputs
+  outstandingPrincipal: {
+    min: 0,
+    max: 10_00_00_000, // 10 crores loan principal
+    default: "5000000"
+  },
+  loanInterestRate: {
+    min: 0,
+    max: 25, // 25%
+    default: "9"
+  },
+  remainingTenureMonths: {
+    min: 1,
+    max: 360, // 30 years max
+    default: "120"
+  },
+  remainingTenureYears: {
+    min: 1,
+    max: 30, // 30 years max
+    default: "10"
+  },
+  surplusAmount: {
+    min: 0,
+    max: 50_00_000, // 50 lakh monthly surplus
+    default: "20000"
+  },
+  prepaymentPercentage: {
+    min: 0,
+    max: 100, // 0% to 100%
+    default: "50"
+  },
+  expectedSipReturn: {
+    min: 0,
+    max: 30, // 30%
+    default: "12"
   }
 } as const;
 
