@@ -14,7 +14,7 @@ const LoanVsSipCalculatorClient = dynamic(() => import("./LoanVsSipCalculatorCli
 });
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "EMI vs SIP Calculator – Loan Prepayment vs SIP Investment Analysis for India (2026)",
+  title: "EMI vs SIP Calculator: Loan Prepayment vs Investment (2026)",
   description: "Should you prepay your loan EMI or invest in SIP? Calculate the optimal split strategy between EMI prepayment and SIP investment with real inflation-adjusted analysis for Indian investors.",
   keywords: [
     "loan prepayment calculator", 

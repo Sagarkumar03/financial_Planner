@@ -524,7 +524,7 @@ export default function LoanVsSipCalculatorClient() {
 
   return (
     <CalculatorLayout
-      title="Prepayment vs Investment"
+      title="EMI vs SIP Calculator: Prepayment vs Investment"
       description="Should you prepay your loan or invest in SIP? Find your optimal strategy with our smart calculator."
       breadcrumbLabel="Loan vs SIP Calculator"
       breadcrumbHref="/loan-vs-sip"
@@ -708,7 +708,7 @@ export default function LoanVsSipCalculatorClient() {
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4" role="group" aria-label="Key benefits summary">
-                <div className="bg-blue-100/50 dark:bg-blue-900/10 rounded-lg p-3 text-center" aria-label={`Loan finished early by ${timeSavedYears > 0 || timeSavedRemainingMonths > 0 ? `${timeSavedYears > 0 ? `${timeSavedYears} years` : ''} ${timeSavedRemainingMonths > 0 ? `${timeSavedRemainingMonths} months` : ''}` : 'zero months'}`}>
+                <div className="bg-blue-100/50 dark:bg-blue-900/10 rounded-lg p-3 text-center">
                   <div className="text-sm text-blue-700 dark:text-blue-300 font-medium">Loan Finished Early By</div>
                   <div className="text-lg font-bold text-blue-800 dark:text-blue-200">
                     {timeSavedYears > 0 || timeSavedRemainingMonths > 0 
@@ -718,14 +718,14 @@ export default function LoanVsSipCalculatorClient() {
                   </div>
                 </div>
                 
-                <div className="bg-green-100/50 dark:bg-green-900/10 rounded-lg p-3 text-center" aria-label={`Wealth built: ${formatCurrency(result.futureSipWealth)} rupees`}>
+                <div className="bg-green-100/50 dark:bg-green-900/10 rounded-lg p-3 text-center">
                   <div className="text-sm text-green-700 dark:text-green-300 font-medium">Wealth Built</div>
                   <div className="text-lg font-bold text-green-800 dark:text-green-200">
                     ₹{formatCurrency(result.futureSipWealth)}
                   </div>
                 </div>
                 
-                <div className="bg-emerald-100/50 dark:bg-emerald-900/10 rounded-lg p-3 text-center" aria-label={`Interest saved: ${formatCurrency(result.interestSaved)} rupees`}>
+                <div className="bg-emerald-100/50 dark:bg-emerald-900/10 rounded-lg p-3 text-center">
                   <div className="text-sm text-emerald-700 dark:text-emerald-300 font-medium">Interest Saved</div>
                   <div className="text-lg font-bold text-emerald-800 dark:text-emerald-200">
                     ₹{formatCurrency(result.interestSaved)}
