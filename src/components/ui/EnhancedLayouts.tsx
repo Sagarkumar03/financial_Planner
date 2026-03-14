@@ -143,6 +143,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     { label: 'Step-Up SIP Calculator', href: '/step-up-sip-calculator', icon: '📊' },
     { label: 'Lumpsum Calculator', href: '/lumpsum-calculator', icon: '💰' },
     { label: 'FIRE Calculator', href: '/fire-calculator', icon: '🔥' },
+    { label: 'Rent vs Buy Calculator', href: '/rent-vs-buy-calculator', icon: '🏡' },
     { label: 'Loan vs SIP Calculator', href: '/loan-vs-sip', icon: '⚖️' },
   ];
 

@@ -94,7 +94,7 @@ export const INPUT_LIMITS = {
   loanInterestRate: {
     min: 0,
     max: 25, // 25%
-    default: "9"
+    default: "8"
   },
   remainingTenureMonths: {
     min: 1,
@@ -120,6 +120,62 @@ export const INPUT_LIMITS = {
     min: 0,
     max: 30, // 30%
     default: "12"
+  },
+  // Rent vs Buy Calculator specific inputs
+  propertyPrice: {
+    min: 100000, // 1 lakh
+    max: 10_00_00_000, // 10 crores
+    default: "10000000"
+  },
+  downPaymentPercent: {
+    min: 10,
+    max: 100, // 10% to 100%
+    default: "20"
+  },
+  loanTenureYears: {
+    min: 1,
+    max: 30, // 1 to 30 years
+    default: "20"
+  },
+  monthlyMaintenance: {
+    min: 0,
+    max: 100000, // 1 lakh monthly maintenance
+    default: "3000"
+  },
+  propertyAppreciationRate: {
+    min: 0,
+    max: 15, // 0% to 15%
+    default: "5"
+  },
+  monthlyRent: {
+    min: 1000, // 1k minimum rent
+    max: 1000000, // 10 lakh maximum rent
+    default: "40000"
+  },
+  annualRentHike: {
+    min: 0,
+    max: 15, // 0% to 15%
+    default: "7"
+  },
+  sipReturnRate: {
+    min: 0,
+    max: 30, // 0% to 30%
+    default: "12"
+  },
+  securityDepositMonths: {
+    min: 1,
+    max: 24, // 1 to 24 months
+    default: "6"
+  },
+  transactionCostPercent: {
+    min: 0,
+    max: 15, // 0% to 15%
+    default: "10"
+  },
+  maintenanceIncreasePercent: {
+    min: 0,
+    max: 15, // 0% to 15%
+    default: "6"
   }
 } as const;
 

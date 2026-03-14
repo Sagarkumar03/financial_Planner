@@ -112,7 +112,7 @@ export function StickyNavigation({ className = "" }: StickyNavigationProps) {
                   >
                     Calculators
                   </button>
-                ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" || pathname === "/lumpsum-calculator" || pathname === "/fire-calculator" || pathname === "/loan-vs-sip" ? (
+                ) : pathname === "/sip-calculator" || pathname === "/step-up-sip-calculator" || pathname === "/lumpsum-calculator" || pathname === "/fire-calculator" || pathname === "/rent-vs-buy-calculator" || pathname === "/loan-vs-sip" ? (
                   <button
                     onClick={() => {
                       if (typeof window !== 'undefined') {

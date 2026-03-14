@@ -209,6 +209,27 @@ export default function Home() {
             </div>
           </Link>
 
+          {/* Rent vs Buy Calculator */}
+          <Link href="/rent-vs-buy-calculator" className="group">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 hover:shadow-lg">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
+                  <span className="text-3xl">🏡</span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  Rent vs Buy Calculator
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Make the right housing decision with <strong className="text-blue-600 dark:text-blue-400">comprehensive analysis</strong> including EMI, maintenance, rent hikes and property appreciation.
+                </p>
+                <div className="inline-flex items-center text-blue-600 dark:text-blue-400 font-semibold group-hover:text-blue-700 dark:group-hover:text-blue-300">
+                  Calculate Now
+                  <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+
           {/* Loan vs SIP Calculator */}
           <Link href="/loan-vs-sip" className="group">
             <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-6 border-2 border-emerald-200 dark:border-emerald-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-lg">

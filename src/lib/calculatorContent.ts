@@ -190,3 +190,59 @@ export const LOAN_VS_SIP_CONTENT = {
     ]
   }
 };
+
+export const RENT_VS_BUY_CONTENT = {
+  faq: [
+    {
+      question: "Is it better to rent or buy a house in India?",
+      answer: "There's no universal answer as it depends on various factors including property prices, rent levels, your income, investment alternatives, and personal preferences. Our calculator helps you compare the financial outcomes of both options over your chosen time horizon, considering factors like down payment, EMI, maintenance, rent hikes, and investment returns."
+    },
+    {
+      question: "Why does renting often win in the short-medium term?",
+      answer: "Renting typically has a significant initial advantage because the renter can invest the large upfront amount (down payment + transaction costs) in growth assets like mutual funds. This initial corpus grows over time, often outpacing property appreciation in the early years. Buying usually becomes advantageous only in the long term (10-20+ years)."
+    },
+    {
+      question: "What factors favor buying over renting?",
+      answer: "Buying is typically favorable when: property appreciation exceeds SIP returns, you plan to stay in the same location for 10+ years, rent-to-property-price ratio is high (monthly rent > 0.3% of property price), you want protection against unlimited rent hikes, or you value the emotional satisfaction and stability of ownership."
+    },
+    {
+      question: "What factors favor renting over buying?",
+      answer: "Renting is typically favorable when: you can earn higher returns on investments than property appreciation, you need flexibility to relocate, property prices are very high relative to rents, you want to avoid maintenance responsibilities, or you prefer liquidity over real estate investment."
+    },
+    {
+      question: "How accurate is this calculator?",
+      answer: "This calculator provides a realistic financial comparison based on your inputs, considering EMI, maintenance, rent hikes, investment returns, and inflation. However, it doesn't account for intangible benefits like ownership satisfaction, forced savings through EMI, or risks like property damage, vacancy periods, or liquidity issues."
+    },
+    {
+      question: "What is the break-even year?",
+      answer: "The break-even year is when the buyer's net worth (property value) equals the renter's net worth (invested corpus). Before this point, renting is financially advantageous; after this point, buying becomes better. This helps you understand the minimum time horizon needed for buying to make financial sense."
+    },
+    {
+      question: "Should I consider tax implications?",
+      answer: "Yes! This calculator doesn't include tax benefits like home loan interest deduction (up to ₹2 lakhs under Section 24), principal repayment savings (up to ₹1.5 lakhs under Section 80C), or capital gains tax on property sale vs LTCG on SIP investments. Consider consulting a tax advisor for complete analysis including tax implications."
+    },
+    {
+      question: "What about maintenance and hidden costs?",
+      answer: "The calculator includes regular maintenance costs and their annual increases. However, it doesn't account for major repairs, society charges, property taxes, or insurance. For renters, it doesn't include broker fees for relocating. In reality, actual costs may vary from the estimates entered in the calculator."
+    }
+  ],
+  
+  benefits: {
+    title: "🏠 Rent vs Buy Calculator Benefits",
+    description: "Make an informed housing decision with comprehensive analysis of renting vs buying in the Indian real estate market!"
+  },
+
+  assumptions: {
+    title: "📊 Key Assumptions Used", 
+    items: [
+      "Property Appreciation: {appreciation}% annually",
+      "Rental Increase: {rentHike}% annually", 
+      "Investment Returns: {sipReturn}% annually (for renter's corpus)",
+      "Inflation Rate: {inflation}% annually",
+      "Loan Interest: {loanRate}% annually",
+      "Transaction Costs: {transactionCost}% of property value",
+      "Security Deposit: {securityDeposit} months of rent",
+      "Maintenance Increase: {maintIncrease}% annually"
+    ]
+  }
+};
