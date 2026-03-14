@@ -91,12 +91,7 @@ export default function RentVsBuyCalculatorClient() {
   // UI state
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showInvestmentGapDetails, setShowInvestmentGapDetails] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
   const [calculationStatus, setCalculationStatus] = useState<'calculating' | 'ready'>('ready');
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   // Parse and clamp all inputs  
   const parsedInputs = useMemo(() => ({
@@ -140,26 +135,6 @@ export default function RentVsBuyCalculatorClient() {
 
   // Calculate result with debounced inputs
   const result = useMemo(() => {
-    if (!isHydrated) {
-      // Return default result for SSR
-      return {
-        winner: 'renting' as const,
-        advantageAmount: 0,
-        finalPropertyValue: 0,
-        finalRenterWealth: 0,
-        totalRentPaid: 0,
-        breakEvenYear: null,
-        monthlyEMI: 0,
-        totalUpfrontBuying: 0,
-        totalUpfrontRenting: 0,
-        inflationAdjustedAdvantage: 0,
-        inflationAdjustedPropertyValue: 0,
-        inflationAdjustedRenterWealth: 0,
-        totalInterestPaid: 0,
-        initialRenterAdvantage: 0,
-      };
-    }
-
     try {
       return calculator.calculate(debouncedInputs, assumptions);
     } catch (error) {
@@ -182,7 +157,7 @@ export default function RentVsBuyCalculatorClient() {
         initialRenterAdvantage: 0,
       };
     }
-  }, [debouncedInputs, assumptions, isHydrated]);
+  }, [debouncedInputs, assumptions]);
 
   // Input handlers with optimized state updates using startTransition
   const handlePropertyPriceChange = useCallback((value: string) => {
@@ -538,10 +513,7 @@ export default function RentVsBuyCalculatorClient() {
               aria-atomic="true"
               className="sr-only"
             >
-              {calculationStatus === 'calculating' && 'Calculating results...'}
-              {calculationStatus === 'ready' && result && 
-                `Results updated: ${result.winner === 'buying' ? 'Buying' : 'Renting'} is better by ${formatCurrency(result.advantageAmount)}`
-              }
+              Rent vs Buy Analysis Results
             </div>
             {/* Main Verdict */}
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 mb-6">
@@ -615,8 +587,12 @@ export default function RentVsBuyCalculatorClient() {
               <FinancialMetric
                 label="💰 Investment Wealth"
                 amount={Math.round(result.finalRenterWealth)}
-                description={`Renter's accumulated wealth`}
-                color="primary"
+                description={
+                  result.finalRenterWealth < 0
+                    ? `Renter's accumulated wealth (negative due to higher monthly rent)`
+                    : `Renter's accumulated wealth`
+                }
+                color={result.finalRenterWealth < 0 ? "warning" : "primary"}
                 size="lg"
               />
             </div>
@@ -634,9 +610,23 @@ export default function RentVsBuyCalculatorClient() {
               />
 
               {/* Initial Investment Gap with Expandable Details */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+              <div 
+                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors duration-200"
+                onClick={() => setShowInvestmentGapDetails(!showInvestmentGapDetails)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowInvestmentGapDetails(!showInvestmentGapDetails);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`${showInvestmentGapDetails ? 'Hide' : 'Show'} calculation details for Initial Investment Gap`}
+                aria-expanded={showInvestmentGapDetails}
+                aria-controls="investment-gap-details"
+              >
                 <div className="flex justify-between items-start">
-                  <div className="flex-1">
+                  <div className="flex-1 pointer-events-none">
                     <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
                       Initial Investment Gap
                     </h4>
@@ -647,34 +637,20 @@ export default function RentVsBuyCalculatorClient() {
                       Renter's head start for investing
                     </p>
                   </div>
-                  {isHydrated && (
-                    <button
-                      onClick={() => setShowInvestmentGapDetails(!showInvestmentGapDetails)}
-                      className="ml-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                      aria-label={`${showInvestmentGapDetails ? 'Hide' : 'Show'} calculation details for Initial Investment Gap`}
-                      aria-expanded={showInvestmentGapDetails}
-                      aria-controls="investment-gap-details"
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setShowInvestmentGapDetails(!showInvestmentGapDetails);
-                        }
-                      }}
+                  <div className="ml-2 p-1 rounded-full pointer-events-none">
+                    <svg 
+                      className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showInvestmentGapDetails ? 'rotate-180' : ''}`}
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
-                      <svg 
-                        className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${showInvestmentGapDetails ? 'rotate-180' : ''}`}
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                  )}
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </div>
                 
-                {isHydrated && showInvestmentGapDetails && (
+                {showInvestmentGapDetails && (
                   <div 
                     id="investment-gap-details"
                     className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600"
