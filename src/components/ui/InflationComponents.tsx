@@ -169,13 +169,15 @@ interface InflationAwareResultsProps {
   children: React.ReactNode;
   inflationMessage?: string;
   className?: string;
+  hideRealValueInsight?: boolean;
 }
 
 export const InflationAwareResults: React.FC<InflationAwareResultsProps> = ({
   title,
   children,
   inflationMessage,
-  className = ''
+  className = '',
+  hideRealValueInsight = false
 }) => {
   return (
     <div className={`bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl border border-emerald-200/50 dark:border-gray-700 shadow-lg ${className}`}>
@@ -198,12 +200,14 @@ export const InflationAwareResults: React.FC<InflationAwareResultsProps> = ({
       </div>
 
       {/* Footer message */}
-      <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-b-xl p-4 border-t border-emerald-200/50 dark:border-emerald-800/50">
-        <div className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
-          <span>✨</span>
-          <strong>Real Value Insight:</strong> Numbers adjusted for inflation show your true financial progress
+      {!hideRealValueInsight && (
+        <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-b-xl p-4 border-t border-emerald-200/50 dark:border-emerald-800/50">
+          <div className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300">
+            <span>✨</span>
+            <strong>Real Value Insight:</strong> Numbers adjusted for inflation show your true financial progress
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -3,6 +3,8 @@
 import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { FireCalculator } from "@/calculators/fire/fireCalculator";
+
+import { InflationAwareResults } from "@/components/ui/InflationComponents";
 import { 
   INPUT_LIMITS,
   handleIntegerInput,
@@ -348,10 +350,6 @@ export default function FireCalculatorClient() {
     if (value < INPUT_LIMITS.monthlyFireSavings.min) setMonthlyFireSavings(INPUT_LIMITS.monthlyFireSavings.min.toString());
   }, [monthlyFireSavings]);
 
-  if (!isHydrated) {
-    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900" />;
-  }
-
   return (
     <CalculatorLayout
       title="Financial Independence (FIRE) Calculator with Inflation-Adjusted Returns"
@@ -360,7 +358,7 @@ export default function FireCalculatorClient() {
       breadcrumbHref="/fire-calculator"
     >
       {/* Primary Inputs Section */}
-      <Section background="default" padding="lg">
+      <Section background="card" padding="lg">
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -380,6 +378,7 @@ export default function FireCalculatorClient() {
               type="number"
               placeholder="30"
               helperText="Your current age in years"
+              icon="👤"
             />
 
             <MobileFormInput
@@ -390,6 +389,7 @@ export default function FireCalculatorClient() {
               type="number"
               placeholder="45"
               helperText={`Must be greater than ${parsedInputs.currentAge}`}
+              icon="🎯"
             />
           </div>
 
@@ -401,6 +401,7 @@ export default function FireCalculatorClient() {
             type="currency"
             placeholder="100000"
             helperText="Your current yearly living expenses"
+            icon="🏠"
           />
 
           <MobileFormInput
@@ -411,6 +412,7 @@ export default function FireCalculatorClient() {
             type="currency"
             placeholder="0"
             helperText="Current retirement savings (optional)"
+            icon="🏦"
           />
 
           <MobileFormInput
@@ -421,6 +423,7 @@ export default function FireCalculatorClient() {
             type="currency"
             placeholder="10000"
             helperText="Monthly amount you can save for FIRE"
+            icon="💰"
           />
 
           {/* Advanced Options Toggle */}
@@ -430,6 +433,7 @@ export default function FireCalculatorClient() {
             onChange={setShowAdvanced}
             label="Show Advanced Options"
             description="Customize assumptions for more accurate calculations"
+            icon="⚙️"
           />
 
           {/* Advanced Inputs - Code Split Component */}
@@ -470,118 +474,131 @@ export default function FireCalculatorClient() {
         </div>
       </Section>
 
-      {/* Results Section */}
-      <Section background="gradient" padding="lg">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Your FIRE Analysis
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Based on your inputs, here's your path to Financial Independence
-            </p>
-          </div>
+      {/* Loading Indicator for Optimization */}
+      {isCalculating && (
+        <div className="flex flex-col items-center justify-center py-12 mb-8" aria-live="polite">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4" role="status" aria-label="Calculating FIRE projection"></div>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            Calculating your FIRE projection...
+          </p>
+        </div>
+      )}
 
-          {/* Loading Indicator for Optimization */}
-          {isCalculating && (
-            <div className="flex flex-col items-center justify-center py-12 mb-8" aria-live="polite">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4" role="status" aria-label="Calculating FIRE projection"></div>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Calculating your FIRE projection...
-              </p>
+      {/* Results Content - Only show when not calculating */}
+      {!isCalculating && (
+        <>
+        {/* Financial Overview - FIRE Summary */}
+        <InflationAwareResults 
+          title="Your FIRE Investment Summary"
+          inflationMessage={`Analysis based on ${parsedInputs.inflationRate}% inflation and ${parsedInputs.safeWithdrawalRate}% safe withdrawal rate${!showAdvanced ? ' - Click "Show Advanced Options" above to customize these assumptions' : ''}`}
+          className="mb-8"
+          hideRealValueInsight={true}
+        >
+          {/* Custom Freedom Number Card with Expandable Breakdown */}
+          <div className="bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-lg p-4 border border-emerald-200 dark:border-emerald-800/30 overflow-hidden mb-6">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-emerald-600 dark:text-emerald-400 text-sm">🎯</span>
+              <div className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
+                Freedom Number
+              </div>
+              <button
+                onClick={() => setShowFreedomBreakdown(!showFreedomBreakdown)}
+                className="ml-auto text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-200 flex items-center gap-1"
+                aria-expanded={showFreedomBreakdown}
+                aria-label={showFreedomBreakdown ? "Hide Freedom Number calculation breakdown" : "Show Freedom Number calculation breakdown"}
+              >
+                {showFreedomBreakdown ? "Hide" : "How?"} 
+                <span className={`transform transition-transform duration-200 ${showFreedomBreakdown ? "rotate-180" : ""}`}>▼</span>
+              </button>
             </div>
-          )}
+            
+            <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-1 text-right tracking-tight">
+              <span aria-label={`Freedom Number: ${formatCurrency(result.freedomNumber)} rupees`}>
+                ₹ {formatCurrency(result.freedomNumber)}
+              </span>
+            </div>
+            
+            <div className="text-xs text-emerald-700 dark:text-emerald-400 mb-2">
+              Total corpus needed at retirement
+            </div>
 
-          {/* Results Content - Only show when not calculating */}
-          {!isCalculating && (
-          <>
-          {/* Financial Overview - Full Width on Desktop */}
-          <div className="mb-8">
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <span className="text-blue-500">💰</span>
-                Financial Overview
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Custom Freedom Number Card with Expandable Breakdown */}
-                <div className="bg-gradient-to-r from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20 rounded-lg p-4 border border-emerald-200 dark:border-emerald-800/30 overflow-hidden">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-emerald-600 dark:text-emerald-400 text-sm">🎯</span>
-                    <div className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
-                      Freedom Number
+              {/* Expandable Breakdown */}
+              <div className={`transition-all duration-300 ease-in-out ${
+                showFreedomBreakdown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              } overflow-hidden`}>
+                <div className="pt-3 border-t border-emerald-200 dark:border-emerald-700">
+                  <div className="text-xs font-medium text-gray-900 dark:text-white mb-2">
+                    📊 Calculation Breakdown
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    <div>
+                      <div className="text-gray-600 dark:text-gray-300 mb-1">
+                        First Retirement Year expenses adjusted to inflation
+                      </div>
+                      <div className="font-medium text-gray-800 dark:text-gray-200 text-right">
+                        ₹{formattedRetirementExpenses}
+                      </div>
                     </div>
-                    <button
-                      onClick={() => setShowFreedomBreakdown(!showFreedomBreakdown)}
-                      className="ml-auto text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-200 flex items-center gap-1"
-                      aria-expanded={showFreedomBreakdown}
-                      aria-label={showFreedomBreakdown ? "Hide Freedom Number calculation breakdown" : "Show Freedom Number calculation breakdown"}
-                    >
-                      {showFreedomBreakdown ? "Hide" : "How?"} 
-                      <span className={`transform transition-transform duration-200 ${showFreedomBreakdown ? "rotate-180" : ""}`}>▼</span>
-                    </button>
-                  </div>
-                  
-                  <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mb-1 text-right tracking-tight">
-                    <span aria-label={`Freedom Number: ${formatCurrency(result.freedomNumber)} rupees`}>
-                      ₹ {formatCurrency(result.freedomNumber)}
-                    </span>
-                  </div>
-                  
-                  <div className="text-xs text-emerald-700 dark:text-emerald-400 mb-2">
-                    Total corpus needed at retirement
-                  </div>
-
-                  {/* Expandable Breakdown */}
-                  <div className={`transition-all duration-300 ease-in-out ${
-                    showFreedomBreakdown ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                  } overflow-hidden`}>
-                    <div className="pt-3 border-t border-emerald-200 dark:border-emerald-700">
-                      <div className="text-xs font-medium text-gray-900 dark:text-white mb-2">
-                        📊 Calculation Breakdown
-                      </div>
-                      <div className="space-y-2 text-xs">
-                        <div>
-                          <div className="text-gray-600 dark:text-gray-300 mb-1">
-                            First Retirement Year expenses adjusted to inflation
-                          </div>
-                          <div className="font-medium text-gray-800 dark:text-gray-200 text-right">
-                            ₹{formattedRetirementExpenses}
-                          </div>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600 dark:text-gray-300">Safe Withdrawal Rate:</span>
-                          <span className="font-medium text-gray-800 dark:text-gray-200">
-                            {parsedInputs.safeWithdrawalRate}%
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center pt-1 border-t border-emerald-200 dark:border-emerald-700">
-                          <span className="text-gray-600 dark:text-gray-300">Formula:</span>
-                          <span className="font-medium text-gray-800 dark:text-gray-200 text-right">
-                            Expenses ÷ {parsedInputs.safeWithdrawalRate}%
-                          </span>
-                        </div>
-                      </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 dark:text-gray-300">Safe Withdrawal Rate:</span>
+                      <span className="font-medium text-gray-800 dark:text-gray-200">
+                        {parsedInputs.safeWithdrawalRate}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pt-1 border-t border-emerald-200 dark:border-emerald-700">
+                      <span className="text-gray-600 dark:text-gray-300">Formula:</span>
+                      <span className="font-medium text-gray-800 dark:text-gray-200 text-right">
+                        Expenses ÷ {parsedInputs.safeWithdrawalRate}%
+                      </span>
                     </div>
                   </div>
                 </div>
-
-                <FinancialMetric
-                  label="Projected Corpus"
-                  amount={result.projectedCorpus}
-                  description="What you'll have with current plan"
-                />
-
-                <FinancialMetric
-                  label={result.isOnTrack ? "Surplus" : "Shortfall"}
-                  amount={Math.abs(result.shortfall)}
-                  description={result.isOnTrack ? "Extra amount you'll have" : "Amount you'll be short"}
-                  color={result.isOnTrack ? "success" : "warning"}
-                  className={result.isOnTrack ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}
-                />
               </div>
             </div>
-          </div>
+
+            <FinancialDivider />
+
+            <FinancialMetric
+              label="Projected Corpus"
+              amount={result.projectedCorpus}
+              description="What you'll have with current plan"
+              color="primary"
+              weight="semibold"
+              size="lg"
+            />
+
+            <FinancialDivider />
+
+            <FinancialMetric
+              label={result.isOnTrack ? "Surplus" : "Shortfall"}
+              amount={Math.abs(result.shortfall)}
+              description={result.isOnTrack ? "Extra amount you'll have" : "Amount you'll be short"}
+              color={result.isOnTrack ? "success" : "warning"}
+              weight="semibold"
+              size="lg"
+            />
+          </InflationAwareResults>
+
+          {/* Gap Analysis */}
+          {!result.isOnTrack && result.extraMonthlyRequired > 0 && (
+            <div className="bg-orange-50 dark:bg-orange-900/20 rounded-xl p-4 border border-orange-200 dark:border-orange-800 mb-8">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <span className="text-orange-500">💡</span>
+                How to Get On Track
+              </h3>
+              
+              {/* Focus on the key action needed */}
+              <FinancialMetric
+                label={`Extra SIP needed to retire by age ${parsedInputs.targetRetirementAge}`}
+                amount={result.extraMonthlyRequired}
+                description="Additional monthly investment required"
+                size="lg"
+                color="warning"
+                weight="bold"
+                className="bg-white/50 dark:bg-gray-800/30 rounded-lg p-4"
+              />
+            </div>
+          )}
 
           {/* Progress Tracker - Full Width */}
           <div className="mb-8">
@@ -690,29 +707,6 @@ export default function FireCalculatorClient() {
             </div>
           </div>
 
-          {/* Gap Analysis */}
-          {!result.isOnTrack && result.extraMonthlyRequired > 0 && (
-            <div className="bg-orange-50 dark:bg-orange-900/20 rounded-xl p-4 sm:p-6 border border-orange-200 dark:border-orange-800 mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <span className="text-orange-500">💡</span>
-                How to Get On Track
-              </h3>
-              
-              {/* Focus on the key action needed */}
-              <div className="flex justify-center">
-                <FinancialMetric
-                  label={`Extra SIP needed to retire by age ${parsedInputs.targetRetirementAge}`}
-                  amount={result.extraMonthlyRequired}
-                  description="Additional monthly investment required"
-                  size="lg"
-                  color="warning"
-                  weight="bold"
-                  className="bg-white/50 dark:bg-gray-800/30 rounded-lg p-4 max-w-sm"
-                />
-              </div>
-            </div>
-          )}
-
           {/* Assumptions Used */}
           {!showAdvanced && (
             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -735,8 +729,6 @@ export default function FireCalculatorClient() {
           )}
           </>
           )}
-        </div>
-      </Section>
 
       <CalculatorDisclaimer additionalText="This FIRE (Financial Independence, Retire Early) calculator provides estimates for educational purposes only and should not be considered as financial advice. FIRE planning involves significant long-term risks: (1) Projections spanning 15-30+ years are highly uncertain and subject to economic cycles, inflation volatility, and market crashes that can derail plans. (2) The Safe Withdrawal Rate (typically 3-4%) is based on historical data and may not hold during prolonged market downturns or high inflation periods. (3) Early retirees face sequence-of-returns risk - poor market performance in early retirement years can permanently damage portfolio sustainability. (4) Healthcare costs, emergencies, and lifestyle changes over decades are unpredictable and can exceed planned expenses. (5) Life expectancy assumptions are critical - living significantly longer than expected can exhaust funds. (6) This calculator assumes constant growth rates and inflation, which rarely occur in reality. (7) Early retirement may limit access to employer benefits, social security, and other income sources. (8) Consider diversifying with other income streams, conservative withdrawal rates, and flexibility to return to work if needed. Please consult with a qualified financial advisor who specializes in FIRE planning before making major life decisions based on these projections." />
       <CalculatorFAQ specificFAQ={FIRE_CONTENT.faq} />
